@@ -153,10 +153,10 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
     }
 
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {
-        if(tank.isEmpty() || (getPotionMixture() == PotionMixture.EMPTY) || hasWater()) {
-            ingredientsUsed = 0;
-            setChanged();
-        }
+//        if(tank.isEmpty() || (getPotionMixture() == PotionMixture.EMPTY) || hasWater()) {     the fix for a bug creates an
+//            ingredientsUsed = 0;                                                              even worse bug, bruh
+//            setChanged();
+//        }
 
         if(!isHeated()) {
             resetProgress();
@@ -177,6 +177,8 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
         boolean brewingBase = input.is(Items.NETHER_WART) && hasWater();
         boolean addingIngredient = hasRecipe() && hasPotionFluid();
         boolean bottling = (output.is(Items.GLASS_BOTTLE) || output.is(ModItems.WONDROUS_FLASK)) && hasPotionFluid();
+        boolean lockedFlask = (output.is(ModItems.WONDROUS_FLASK.get()) && !canFillFlask(output));
+
         updateBrewingState(level, blockPos, blockState, (addingIngredient || brewingBase || bottling));
 
         if(addingIngredient || brewingBase) {
@@ -192,6 +194,7 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
                 resetProgress();
             }
         } else if(bottling) {
+            if(lockedFlask) { return; }
             increaseBottlingProgress();
             setChanged(level, blockPos, blockState);
             if(hasBottlingFinished()) {
@@ -433,6 +436,11 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
         if(level != null && !level.isClientSide) {
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
         }
+    }
+
+    private boolean canFillFlask(ItemStack flask) {
+        FluidStack fluidStack = tank.getFluid();
+        return WondrousFlaskItem.canFillFluidType(flask, fluidStack);
     }
     // -------------------------------
 

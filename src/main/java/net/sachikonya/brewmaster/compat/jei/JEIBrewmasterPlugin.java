@@ -1,4 +1,4 @@
-package net.sachikonya.brewmaster.compat.jade;
+package net.sachikonya.brewmaster.compat.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -15,7 +15,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.sachikonya.brewmaster.Brewmaster;
 import net.sachikonya.brewmaster.block.ModBlocks;
-import net.sachikonya.brewmaster.compat.jei.BrewingRecipeCategory;
 import net.sachikonya.brewmaster.recipe.ModRecipes;
 import net.sachikonya.brewmaster.screen.custom.WitchCauldronScreen;
 

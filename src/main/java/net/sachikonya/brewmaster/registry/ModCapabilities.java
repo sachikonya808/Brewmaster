@@ -16,6 +16,7 @@ public class ModCapabilities {
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.WITCH_CAULDRON_BE.get(),
                 (blockEntity, side) -> blockEntity.getFluidTank());
+
         event.registerItem(Capabilities.FluidHandler.ITEM,
                 (stack, ctx) -> new PotionFlaskFluidHandler(stack), ModItems.WONDROUS_FLASK.get());
     }

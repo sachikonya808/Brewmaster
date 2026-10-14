@@ -40,21 +40,7 @@ public class PotionItemFactory {
             potion.set(DataComponents.CUSTOM_NAME, Component.translatable("item.brewmaster.mixed_potion"));
             potion.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
 
-            int score = 0;
-            for(PotionEffectData effectData : mixture.effectDataList()) {
-                score += 1 + effectData.amplifier();
-            }
-
-            Rarity rarity;
-            if(score >= 8) {
-                rarity = Rarity.EPIC;
-            } else if(score >= 5) {
-                rarity = Rarity.RARE;
-            } else if(score >= 2) {
-                rarity = Rarity.UNCOMMON;
-            } else {
-                rarity = Rarity.COMMON;
-            }
+            Rarity rarity = getRarity(mixture);
 
             potion.set(DataComponents.RARITY, rarity);
         }
@@ -62,5 +48,26 @@ public class PotionItemFactory {
         potion.set(DataComponents.POTION_CONTENTS, contents);
 
         return potion;
+    }
+
+    public static Rarity getRarity(PotionMixture mixture) {
+        int score = 0;
+
+        for(PotionEffectData effectData : mixture.effectDataList()) {
+            score += 1 + effectData.amplifier();
+        }
+
+        Rarity rarity;
+        if(score >= 8) {
+            rarity = Rarity.EPIC;
+        } else if(score >= 5) {
+            rarity = Rarity.RARE;
+        } else if(score >= 2) {
+            rarity = Rarity.UNCOMMON;
+        } else {
+            rarity = Rarity.COMMON;
+        }
+
+        return rarity;
     }
 }

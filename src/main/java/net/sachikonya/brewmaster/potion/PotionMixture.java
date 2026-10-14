@@ -87,7 +87,7 @@ public record PotionMixture(List<PotionEffectData> effectDataList, double durati
         List<Component> lines = new ArrayList<>();
 
         if(effectDataList.isEmpty()) {
-            lines.add(Component.translatable("item.minecraft.potion.effect.empty").withStyle(ChatFormatting.GRAY));
+            lines.add(Component.translatable("effect.none").withStyle(ChatFormatting.GRAY));
             return lines;
         }
 

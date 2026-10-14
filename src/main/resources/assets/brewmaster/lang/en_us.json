@@ -10,6 +10,7 @@
   "brewmaster.configuration.magicNumber": "Magic Number",
 
   "block.brewmaster.witch_cauldron": "Witch's Cauldron",
+  "item.brewmaster.wondrous_flask": "Wondrous Flask",
   "item.brewmaster.mixed_potion": "Mixed Potion",
   "fluid_type.brewmaster.potion": "Mixed Potion",
 
@@ -29,6 +30,8 @@
   "effect.brewmaster.big": "Big",
 
   "tooltip.brewmaster.empty_fluid": "Empty",
+  "tooltip.brewmaster.amount": "Amount: %s / %s mB",
+  "tooltip.brewmaster.charges": "Charges: %s / %s",
 
   "potion.potency.6": "VII",
   "potion.potency.7": "VIII",

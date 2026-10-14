@@ -7,7 +7,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.sachikonya.brewmaster.block.entity.WitchCauldronBlockEntity;
-import net.sachikonya.brewmaster.compat.jei.JadeBrewmasterPlugin;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.IServerDataProvider;

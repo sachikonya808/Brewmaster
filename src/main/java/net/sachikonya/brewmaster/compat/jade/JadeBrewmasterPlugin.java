@@ -1,10 +1,9 @@
-package net.sachikonya.brewmaster.compat.jei;
+package net.sachikonya.brewmaster.compat.jade;
 
 import net.minecraft.resources.ResourceLocation;
 import net.sachikonya.brewmaster.Brewmaster;
 import net.sachikonya.brewmaster.block.custom.WitchCauldronBlock;
 import net.sachikonya.brewmaster.block.entity.WitchCauldronBlockEntity;
-import net.sachikonya.brewmaster.compat.jade.WitchCauldronComponentProvider;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;
 import snownee.jade.api.IWailaPlugin;

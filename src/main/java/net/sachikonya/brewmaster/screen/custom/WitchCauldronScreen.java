@@ -94,7 +94,7 @@ public class WitchCauldronScreen extends AbstractContainerScreen<WitchCauldronMe
                 case 1 -> lines.add(Component.translatable("block.minecraft.water"));
                 case 2 -> {
                     if (menu.getPotionMixture().isPotionEmpty()) {
-                        lines.add(Component.translatable("item.minecraft.potion.effect.awkward"));
+                        lines.add(Component.translatable("effect.none"));
                     } else {
                         lines.add(Component.translatable("item.brewmaster.mixed_potion").withStyle(ChatFormatting.ITALIC));
                         lines.addAll(menu.getPotionMixture().getTooltipLines());
@@ -102,7 +102,7 @@ public class WitchCauldronScreen extends AbstractContainerScreen<WitchCauldronMe
                 }
                 default -> lines.add(Component.literal("Unknown Fluid!!!"));
             }
-            lines.add(Component.literal("Amount: "+menu.getBrewAmount()+" / "+WitchCauldronBlockEntity.CAPACITY+" mB").withStyle(ChatFormatting.GRAY));
+            lines.add(Component.translatable("tooltip.brewmaster.amount", menu.getBrewAmount(), WitchCauldronBlockEntity.CAPACITY).withStyle(ChatFormatting.GRAY));
 
             guiGraphics.renderComponentTooltip(font, lines, pMouseX, pMouseY);
         }
