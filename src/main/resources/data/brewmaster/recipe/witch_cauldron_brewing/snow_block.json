@@ -1,0 +1,13 @@
+{
+  "type": "brewmaster:witch_cauldron_brewing",
+  "ingredient": {
+    "item": "minecraft:snow_block"
+  },
+  "effects": [
+    {
+      "effect": "minecraft:slowness",
+      "amplifier": 0,
+      "duration": 1800
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "brewmaster:witch_cauldron_brewing",
+  "ingredient": {
+    "item": "minecraft:stone"
+  },
+  "effects": [
+    {
+      "effect": "minecraft:infested",
+      "amplifier": 0,
+      "duration": 1800
+    }
+  ]
+}

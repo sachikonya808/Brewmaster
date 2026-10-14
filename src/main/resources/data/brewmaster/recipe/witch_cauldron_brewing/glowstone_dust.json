@@ -1,0 +1,13 @@
+{
+  "type": "brewmaster:witch_cauldron_brewing",
+  "ingredient": {
+    "item": "minecraft:glowstone_dust"
+  },
+  "effects": [
+    {
+      "effect": "minecraft:glowing",
+      "amplifier": 0,
+      "duration": 1800
+    }
+  ]
+}

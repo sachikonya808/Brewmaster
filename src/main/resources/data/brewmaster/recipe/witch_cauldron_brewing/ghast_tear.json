@@ -1,0 +1,13 @@
+{
+  "type": "brewmaster:witch_cauldron_brewing",
+  "ingredient": {
+    "item": "minecraft:ghast_tear"
+  },
+  "effects": [
+    {
+      "effect": "minecraft:regeneration",
+      "amplifier": 0,
+      "duration": 1800
+    }
+  ]
+}

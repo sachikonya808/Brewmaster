@@ -1,0 +1,13 @@
+{
+  "type": "brewmaster:witch_cauldron_brewing",
+  "ingredient": {
+    "item": "minecraft:crimson_fungus"
+  },
+  "effects": [
+    {
+      "effect": "minecraft:instant_damage",
+      "amplifier": 0,
+      "duration": 1800
+    }
+  ]
+}

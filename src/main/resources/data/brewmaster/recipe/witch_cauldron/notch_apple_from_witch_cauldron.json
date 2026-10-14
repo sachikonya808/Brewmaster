@@ -1,0 +1,10 @@
+{
+  "type": "brewmaster:witch_cauldron",
+  "ingredient": {
+    "item": "minecraft:nether_wart"
+  },
+  "result": {
+    "id": "minecraft:enchanted_golden_apple",
+    "count": 4
+  }
+}

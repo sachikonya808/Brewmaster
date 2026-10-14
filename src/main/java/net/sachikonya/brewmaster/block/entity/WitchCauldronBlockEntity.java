@@ -1,0 +1,468 @@
+package net.sachikonya.brewmaster.block.entity;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.Containers;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.sachikonya.brewmaster.block.custom.WitchCauldronBlock;
+import net.sachikonya.brewmaster.fluid.ModFluids;
+import net.sachikonya.brewmaster.item.ModItems;
+import net.sachikonya.brewmaster.item.custom.WondrousFlaskItem;
+import net.sachikonya.brewmaster.potion.PotionItemFactory;
+import net.sachikonya.brewmaster.potion.PotionMixture;
+import net.sachikonya.brewmaster.recipe.*;
+import net.sachikonya.brewmaster.registry.ModDataComponents;
+import net.sachikonya.brewmaster.screen.custom.WitchCauldronMenu;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
+
+public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvider {
+    private static final int SLOT_COUNT = 3; //<---- How many slots should the block have!
+
+    public final ItemStackHandler itemHandler = new ItemStackHandler(SLOT_COUNT) {
+        @Override
+        protected void onContentsChanged(int slot) {
+            setChanged();
+            if (!level.isClientSide) {
+                level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+            }
+        }
+    };
+
+    private static final int INGREDIENT_SLOT = 0;
+    private static final int FUEL_SLOT = 2;
+    private static final int BOTTLE_SLOT = 1;
+    private static final int FUEL_USES = 20;
+
+    protected final ContainerData data;
+    private int fuel = 0;
+    private int progress = 0;
+    private int bottlingProgress = 0;
+    private int maxProgress, bottlingMaxProgress = 72;
+
+    public WitchCauldronBlockEntity(BlockPos pos, BlockState blockState) {
+        super(ModBlockEntities.WITCH_CAULDRON_BE.get(), pos, blockState);
+        data = new ContainerData() {
+            @Override
+            public int get(int i) {
+                return switch (i) {
+                    case 0 -> WitchCauldronBlockEntity.this.progress;
+                    case 1 -> WitchCauldronBlockEntity.this.maxProgress;
+                    case 2 -> WitchCauldronBlockEntity.this.tank.getFluidAmount();
+                    case 3 -> WitchCauldronBlockEntity.this.ingredientsUsed;
+                    case 4 -> WitchCauldronBlockEntity.this.getFinalMaxIngredients();
+                    case 5 -> WitchCauldronBlockEntity.this.getFluidTypeID();
+                    case 6 -> WitchCauldronBlockEntity.this.bottlingProgress;
+                    case 7 -> WitchCauldronBlockEntity.this.bottlingMaxProgress;
+                    case 8 -> WitchCauldronBlockEntity.this.fuel;
+                    default -> 0;
+                };
+            }
+
+            @Override
+            public void set(int i, int value) {
+                switch (i) {
+                    case 0 -> WitchCauldronBlockEntity.this.progress = value;
+                    case 1 -> WitchCauldronBlockEntity.this.maxProgress = value;
+                    case 3 -> WitchCauldronBlockEntity.this.ingredientsUsed = value;
+                    case 6 -> WitchCauldronBlockEntity.this.bottlingProgress = value;
+                    case 7 -> WitchCauldronBlockEntity.this.bottlingMaxProgress = value;
+                    case 8 -> WitchCauldronBlockEntity.this.fuel = value;
+                }
+            }
+
+            @Override
+            public int getCount() { return 9; } //<-- How many variables are going to get stored inside the constructor!
+        };
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return Component.translatable("block.brewmaster.witch_cauldron");
+    }
+
+    @Override
+    public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+        return new WitchCauldronMenu(i, inventory, this, this.data);
+    }
+
+    public void drops() {
+        SimpleContainer inventory = new SimpleContainer(SLOT_COUNT);
+        for (int i = 0; i < SLOT_COUNT; i++) {
+            inventory.setItem(i, itemHandler.getStackInSlot(i));
+        }
+
+        Containers.dropContents(this.level, this.worldPosition, inventory);
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
+        pTag.put("inventory", itemHandler.serializeNBT(pRegistries));
+        pTag.putInt("witch_cauldron.progress", progress);
+        pTag.putInt("witch_cauldron.max_progress", maxProgress);
+        pTag.putInt("witch_cauldron.ingredients_used", ingredientsUsed);
+        pTag.putInt("witch_cauldron.bottling_progress", bottlingProgress);
+        pTag.putInt("witch_cauldron.max_bottling_progress",bottlingMaxProgress);
+        pTag.put("Tank", tank.writeToNBT(pRegistries, new CompoundTag()));
+        pTag.putInt("witch_cauldron.fuel", fuel);
+
+        super.saveAdditional(pTag, pRegistries);
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
+        super.loadAdditional(pTag, pRegistries);
+
+        tank.readFromNBT(pRegistries, pTag.getCompound("Tank"));
+        itemHandler.deserializeNBT(pRegistries, pTag.getCompound("inventory"));
+        progress = pTag.getInt("witch_cauldron.progress");
+        maxProgress = pTag.getInt("witch_cauldron.max_progress");
+        ingredientsUsed = pTag.getInt("witch_cauldron.ingredients_used");
+        bottlingProgress = pTag.getInt("witch_cauldron.bottling_progress");
+        bottlingMaxProgress = pTag.getInt("witch_cauldron.max_bottling_progress");
+        fuel = pTag.getInt("witch_cauldron.fuel");
+    }
+
+    public void tick(Level level, BlockPos blockPos, BlockState blockState) {
+        if(tank.isEmpty() || (getPotionMixture() == PotionMixture.EMPTY) || hasWater()) {
+            ingredientsUsed = 0;
+            setChanged();
+        }
+
+        if(!isHeated()) {
+            resetProgress();
+            updateBrewingState(level, blockPos, blockState, false);
+            return;
+        }
+
+        ItemStack input = itemHandler.getStackInSlot(INGREDIENT_SLOT);
+        ItemStack output = itemHandler.getStackInSlot(BOTTLE_SLOT);
+        ItemStack fuelSlot = itemHandler.getStackInSlot(FUEL_SLOT);
+
+        if (fuel <= 0 && fuelSlot.is(Items.BLAZE_POWDER)) {
+            fuel = FUEL_USES;
+            itemHandler.extractItem(FUEL_SLOT, 1, false);
+            setChanged(level, blockPos, blockState);
+        }
+
+        boolean brewingBase = input.is(Items.NETHER_WART) && hasWater();
+        boolean addingIngredient = hasRecipe() && hasPotionFluid();
+        boolean bottling = (output.is(Items.GLASS_BOTTLE) || output.is(ModItems.WONDROUS_FLASK)) && hasPotionFluid();
+        updateBrewingState(level, blockPos, blockState, (addingIngredient || brewingBase || bottling));
+
+        if(addingIngredient || brewingBase) {
+            increaseCraftingProgress();
+            setChanged(level, blockPos, blockState);
+            if(hasCraftingFinished()){
+                if(hasRecipe())
+                    processIngredient();
+                if(input.is(Items.NETHER_WART))
+                    convertWatertoPotion();
+
+                level.playSound(null,blockPos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1f, 1f);
+                resetProgress();
+            }
+        } else if(bottling) {
+            increaseBottlingProgress();
+            setChanged(level, blockPos, blockState);
+            if(hasBottlingFinished()) {
+                bottlePotion();
+                level.playSound(null,blockPos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1f, 1f);
+                resetProgress();
+            }
+        } else {
+            resetProgress();
+        }
+    }
+
+    private void consumeFuel() {
+        if(this.fuel > 0) {
+            --this.fuel;
+        }
+    }
+
+    public int getFinalMaxIngredients() {
+        int fuelBonus = fuel > 0 ? FUEL_BONUS : 0;
+        return MAX_BASE_INGREDIENTS + fuelBonus + ingredientsUpgrade;
+    }
+
+    private void resetProgress() {
+        progress = 0;
+        bottlingProgress = 0;
+        maxProgress = 72;
+        bottlingMaxProgress = 72;
+    }
+
+    private boolean hasCraftingFinished() {
+        return this.progress >= this.maxProgress;
+    }
+
+    private boolean hasBottlingFinished() {
+        return this.bottlingProgress >= this.bottlingMaxProgress;
+    }
+
+    private void increaseCraftingProgress() {
+        progress++;
+    }
+
+    private void increaseBottlingProgress() {
+        bottlingProgress++;
+    }
+
+    private boolean hasRecipe() {
+        ItemStack ingredientStack = itemHandler.getStackInSlot(INGREDIENT_SLOT);
+        Optional<RecipeHolder<BrewingRecipe>> recipe = BrewingRecipeLookup.findRecipe(level, ingredientStack);
+        if (recipe.isEmpty()) {
+            return false;
+        }
+
+        return canAddIngredients();
+    }
+
+    public ItemStack getIngredient() {
+        return itemHandler.getStackInSlot(INGREDIENT_SLOT);
+    }
+
+    //Fluid / Potion Shenanigans --------------
+
+    //Creating the Fluid Tank
+    public static final int CAPACITY = 1000;
+    public static final int MAX_BASE_INGREDIENTS = 5;
+    public static final int FUEL_BONUS = 2;
+
+    private int ingredientsUpgrade = 0;
+    private int ingredientsUsed = 0;
+
+    public final FluidTank tank = new FluidTank(CAPACITY) {
+        @Override
+        protected void onContentsChanged() {
+            setChanged();
+            syncToClient();
+        }
+
+        @Override
+        public boolean isFluidValid(FluidStack stack) {
+            return stack.is(Fluids.WATER) || stack.is(ModFluids.POTION.get());
+        }
+    };
+
+    public FluidTank getFluidTank() {
+        return tank;
+    }
+
+    public int getFluidTypeID() {
+        FluidStack fluid = tank.getFluid();
+
+        if(fluid.isEmpty()) { return 0; }
+        if(fluid.is(Fluids.WATER)) { return 1; }
+        if(fluid.is(ModFluids.POTION.get())){ return 2; }
+
+        return 0;
+    }
+
+    public PotionMixture getPotionMixture() {
+        FluidStack fluid = tank.getFluid();
+        if (!fluid.is(ModFluids.POTION.get())){
+            return PotionMixture.EMPTY;
+        }
+
+        return fluid.getOrDefault(ModDataComponents.POTION_MIXTURE.get(), PotionMixture.EMPTY);
+    }
+
+    public void setPotionMixture(PotionMixture mixture) {
+        FluidStack fluid = tank.getFluid();
+
+        if(!fluid.is((ModFluids.POTION.get()))) {
+            return;
+        }
+
+        fluid.set(ModDataComponents.POTION_MIXTURE.get(),mixture);
+        setChanged();
+        syncToClient();
+    }
+
+    public boolean hasPotionFluid() {
+        return tank.getFluid().is(ModFluids.POTION.get());
+    }
+
+    public boolean hasWater() {
+        return tank.getFluid().is(Fluids.WATER);
+    }
+
+    public boolean canAddIngredients() {
+        return ingredientsUsed < getFinalMaxIngredients();
+    }
+
+    public boolean convertWatertoPotion() {
+        if (level == null || level.isClientSide()){
+            return false;
+        }
+        if(!hasWater()){
+            return false;
+        }
+
+        if(tank.getFluidAmount() != CAPACITY) {
+            return false;
+        }
+
+        consumeFuel();
+        FluidStack potion = new FluidStack(ModFluids.POTION.get(), CAPACITY);
+        potion.set(ModDataComponents.POTION_MIXTURE.get(), PotionMixture.EMPTY);
+        tank.setFluid(potion);
+        itemHandler.extractItem(INGREDIENT_SLOT, 1, false);
+        ingredientsUsed = 0;
+
+        setChanged();
+        syncToClient();
+        return true;
+    }
+
+    public void processIngredient() {
+        if (level == null || level.isClientSide()){
+            return;
+        }
+        if(!hasPotionFluid()){
+            return;
+        }
+        if(!canAddIngredients()){
+            return;
+        }
+
+        ItemStack ingredientStack = itemHandler.getStackInSlot(INGREDIENT_SLOT);
+        if (ingredientStack.isEmpty()) {
+            return;
+        }
+
+        Optional<RecipeHolder<BrewingRecipe>> recipe = BrewingRecipeLookup.findRecipe(level, ingredientStack);
+        if (recipe.isEmpty()) {
+            return;
+        }
+
+        consumeFuel();
+        PotionMixture mixture = getPotionMixture();
+        PotionMixture updated = BrewingRecipeLookup.applyRecipe(mixture,recipe.get().value());
+        setPotionMixture(updated);
+
+        itemHandler.extractItem(INGREDIENT_SLOT, 1, false);
+        ingredientsUsed++;
+        setChanged();
+    }
+
+    private void bottlePotion() {
+        ItemStack input = itemHandler.getStackInSlot(BOTTLE_SLOT);
+
+        boolean isGlassBottle = input.is(Items.GLASS_BOTTLE);
+        boolean isWondrousFlask = input.is(ModItems.WONDROUS_FLASK.get());
+
+        if (!isGlassBottle && !isWondrousFlask) {
+            return;
+        }
+
+        if(!hasPotionFluid() && tank.getFluidAmount() < 250){
+            return;
+        }
+
+        ItemStack output;
+
+        if(isGlassBottle) {
+            PotionMixture mixture = getPotionMixture();
+            output = PotionItemFactory.createPotion(mixture);
+        } else {
+            output = input.copyWithCount(1);
+
+            FluidStack portion = tank.getFluid().copy();
+            portion.setAmount(WondrousFlaskItem.DOSE);
+
+            IFluidHandlerItem flaskHandler = output.getCapability(Capabilities.FluidHandler.ITEM, null);
+            if(flaskHandler == null) { return; }
+
+            int accepted = flaskHandler.fill(portion, IFluidHandler.FluidAction.SIMULATE);
+            if(accepted != 250) { return; }
+
+            flaskHandler.fill(portion, IFluidHandler.FluidAction.EXECUTE);
+            output = flaskHandler.getContainer();
+        }
+
+        if(output.isEmpty()) { return; }
+
+        tank.drain(250, IFluidHandler.FluidAction.EXECUTE);
+        itemHandler.extractItem(BOTTLE_SLOT, 1, false);
+
+        ItemStack remainder = itemHandler.insertItem(BOTTLE_SLOT, output, false);
+
+        if(!remainder.isEmpty() && level != null) {
+            Block.popResource(level, worldPosition, remainder);
+        }
+        if (tank.isEmpty()) {
+            ingredientsUsed = 0;
+        }
+
+        setChanged();
+    }
+
+    private void syncToClient() {
+        if(level != null && !level.isClientSide) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+        }
+    }
+    // -------------------------------
+
+    public int getFuel() { return fuel; }
+    public int getIngredientsUsed() { return ingredientsUsed; }
+
+    public boolean isHeated() {
+        if (level == null) return false;
+        BlockState below = level.getBlockState(worldPosition.below());
+        return below.is(BlockTags.CAMPFIRES) && below.hasProperty(CampfireBlock.LIT) && below.getValue(CampfireBlock.LIT);
+    }
+
+    private void updateBrewingState(Level level, BlockPos pos, BlockState state, boolean active) {
+        if(hasPotionFluid()){
+            level.setBlock(pos, state.setValue(WitchCauldronBlock.HAS_OR_IS_BREWING, true), Block.UPDATE_ALL);
+            return;
+        }
+
+        if(state.getValue(WitchCauldronBlock.HAS_OR_IS_BREWING) != active) {
+            level.setBlock(pos, state.setValue(WitchCauldronBlock.HAS_OR_IS_BREWING, active), Block.UPDATE_ALL);
+        }
+    }
+
+        @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
+        return saveWithoutMetadata(pRegistries);
+    }
+
+    @Override
+    public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+}

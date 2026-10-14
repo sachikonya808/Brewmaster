@@ -1,0 +1,42 @@
+{
+  "creativetab.brewmaster.brewmaster_items": "Brewmaster",
+
+  "brewmaster.configuration.title": "Brewmaster Configs",
+  "brewmaster.configuration.section.brewmaster.common.toml": "Brewmaster Configs",
+  "brewmaster.configuration.section.brewmaster.common.toml.title": "Brewmaster Configs",
+  "brewmaster.configuration.items": "Item List",
+  "brewmaster.configuration.logDirtBlock": "Log Dirt Block",
+  "brewmaster.configuration.magicNumberIntroduction": "Magic Number Text",
+  "brewmaster.configuration.magicNumber": "Magic Number",
+
+  "block.brewmaster.witch_cauldron": "Witch's Cauldron",
+  "item.brewmaster.mixed_potion": "Mixed Potion",
+  "fluid_type.brewmaster.potion": "Mixed Potion",
+
+  "jei.brewmaster.duration_bonus": "Duration Multiplier: %s",
+  "jei.brewmaster.awkward_potion_required": "Requires %s!",
+  "jei.brewmaster.info.nether_wart": "Test!",
+
+  "config.jade.plugin_brewmaster.witch_cauldron": "Witch's Cauldron",
+  "jade.brewmaster.ingredients": "Ingredients Used: %s / %s",
+  "jade.brewmaster.fuel": "%s",
+
+  "effect.brewmaster.falling_anvil": "Falling Anvil",
+  "effect.brewmaster.lightning_rod": "Lightning Rod",
+  "effect.brewmaster.powder_trail": "Powder Trail",
+  "effect.brewmaster.warden_curse": "Warden's Curse",
+  "effect.brewmaster.small": "Small",
+  "effect.brewmaster.big": "Big",
+
+  "tooltip.brewmaster.empty_fluid": "Empty",
+
+  "potion.potency.6": "VII",
+  "potion.potency.7": "VIII",
+  "potion.potency.8": "IX",
+  "potion.potency.9": "X",
+  "potion.potency.10": "XI",
+  "potion.potency.11": "XII",
+  "potion.potency.12": "XIII",
+  "potion.potency.13": "XIV",
+  "potion.potency.14": "XV"
+}

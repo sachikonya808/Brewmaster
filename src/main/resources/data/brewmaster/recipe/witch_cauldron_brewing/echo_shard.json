@@ -1,0 +1,23 @@
+{
+  "type": "brewmaster:witch_cauldron_brewing",
+  "ingredient": {
+    "item": "minecraft:echo_shard"
+  },
+  "effects": [
+    {
+      "effect": "brewmaster:warden_curse",
+      "amplifier": 0,
+      "duration": 1800
+    },
+    {
+      "effect": "minecraft:blindness",
+      "amplifier": 0,
+      "duration": 1800
+    },
+    {
+      "effect": "minecraft:darkness",
+      "amplifier": 0,
+      "duration": 1800
+    }
+  ]
+}

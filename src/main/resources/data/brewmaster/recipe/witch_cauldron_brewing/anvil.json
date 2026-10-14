@@ -1,0 +1,13 @@
+{
+  "type": "brewmaster:witch_cauldron_brewing",
+  "ingredient": {
+    "item": "minecraft:anvil"
+  },
+  "effects": [
+    {
+      "effect": "brewmaster:falling_anvil",
+      "amplifier": 0,
+      "duration": 100
+    }
+  ]
+}

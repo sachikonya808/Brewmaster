@@ -1,0 +1,13 @@
+{
+  "type": "brewmaster:witch_cauldron_brewing",
+  "ingredient": {
+    "item": "minecraft:pufferfish"
+  },
+  "effects": [
+    {
+      "effect": "minecraft:water_breathing",
+      "amplifier": 0,
+      "duration": 1800
+    }
+  ]
+}

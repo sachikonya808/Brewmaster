@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "has_or_is_brewing=true": {"model": "brewmaster:block/witch_cauldron"},
+    "has_or_is_brewing=false": {"model": "brewmaster:block/witch_cauldron"}
+  }
+}

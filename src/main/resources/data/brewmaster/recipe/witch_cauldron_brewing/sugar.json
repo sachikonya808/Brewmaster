@@ -1,0 +1,13 @@
+{
+  "type": "brewmaster:witch_cauldron_brewing",
+  "ingredient": {
+    "item": "minecraft:sugar"
+  },
+  "effects": [
+    {
+      "effect": "minecraft:speed",
+      "amplifier": 0,
+      "duration": 1800
+    }
+  ]
+}
