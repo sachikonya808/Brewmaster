@@ -15,7 +15,9 @@ public class WardenCurseEffect extends MobEffect {
     @Override
     public void onEffectAdded(LivingEntity livingEntity, int amplifier) {
         ServerLevel serverLevel = (ServerLevel)livingEntity.level();
-        serverLevel.playSound(null, livingEntity.getX(),livingEntity.getY(),livingEntity.getZ(), SoundEvents.SCULK_SHRIEKER_SHRIEK, SoundSource.HOSTILE,1.0f, 1.0f);
+        serverLevel.playSound(null, livingEntity.getX(),livingEntity.getY(),livingEntity.getZ(),
+                SoundEvents.SCULK_SHRIEKER_SHRIEK, SoundSource.HOSTILE,1.0f, 1.0f);
+
         super.onEffectAdded(livingEntity, amplifier);
     }
 }

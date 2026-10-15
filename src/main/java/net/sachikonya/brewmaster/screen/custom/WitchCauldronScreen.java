@@ -2,16 +2,12 @@ package net.sachikonya.brewmaster.screen.custom;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.sachikonya.brewmaster.Brewmaster;
 import net.sachikonya.brewmaster.block.entity.WitchCauldronBlockEntity;
 import net.sachikonya.brewmaster.screen.client.CauldronFluidRender;
@@ -94,13 +90,14 @@ public class WitchCauldronScreen extends AbstractContainerScreen<WitchCauldronMe
                 case 1 -> lines.add(Component.translatable("block.minecraft.water"));
                 case 2 -> {
                     if (menu.getPotionMixture().isPotionEmpty()) {
-                        lines.add(Component.translatable("effect.none"));
+                        lines.add(Component.translatable("item.minecraft.potion.effect.awkward"));
+                        lines.add(Component.translatable("effect.none").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.DARK_GRAY));
                     } else {
                         lines.add(Component.translatable("item.brewmaster.mixed_potion").withStyle(ChatFormatting.ITALIC));
                         lines.addAll(menu.getPotionMixture().getTooltipLines());
                     }
                 }
-                default -> lines.add(Component.literal("Unknown Fluid!!!"));
+                default -> lines.add(Component.literal("!!! Unknown Fluid !!!").withStyle(ChatFormatting.DARK_RED));
             }
             lines.add(Component.translatable("tooltip.brewmaster.amount", menu.getBrewAmount(), WitchCauldronBlockEntity.CAPACITY).withStyle(ChatFormatting.GRAY));
 

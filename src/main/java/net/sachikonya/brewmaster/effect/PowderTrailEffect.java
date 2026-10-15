@@ -37,7 +37,9 @@ public class PowderTrailEffect extends MobEffect {
     @Override
     public void onEffectAdded(LivingEntity livingEntity, int amplifier) {
         ServerLevel serverLevel = (ServerLevel)livingEntity.level();
-        serverLevel.playSound(null, livingEntity.getX(),livingEntity.getY(),livingEntity.getZ(), SoundEvents.TNT_PRIMED, SoundSource.BLOCKS, 1.0F, 1.0F);
+        serverLevel.playSound(null, livingEntity.getX(),livingEntity.getY(),livingEntity.getZ(),
+                SoundEvents.TNT_PRIMED, SoundSource.HOSTILE, 1.0F, 1.0F);
+
         super.onEffectAdded(livingEntity, amplifier);
     }
 

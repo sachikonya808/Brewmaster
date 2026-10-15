@@ -1,8 +1,13 @@
 package net.sachikonya.brewmaster.effect;
 
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.sachikonya.brewmaster.Brewmaster;
@@ -11,11 +16,14 @@ import java.util.Objects;
 
 
 public class BigSmallEffect extends MobEffect {
+    private final String effectName;
+
     protected BigSmallEffect(MobEffectCategory category, int color, String name, double scaleAmount) {
         super(category, color);
+        this.effectName = name;
 
-        double speedModifier = 0.0f;
-        double jumpModifier = 0.0f;
+        double speedModifier;
+        double jumpModifier;
         if(Objects.equals(name, "big")) {
             speedModifier = scaleAmount / 4;
             jumpModifier = scaleAmount / 4;
@@ -36,5 +44,22 @@ public class BigSmallEffect extends MobEffect {
 
     private static ResourceLocation id(String effect, String attribute) {
         return ResourceLocation.fromNamespaceAndPath(Brewmaster.MODID, "effect." + effect + "." + attribute);
+    }
+
+    @Override
+    public void onEffectAdded(LivingEntity livingEntity, int amplifier) {
+        ServerLevel serverLevel = (ServerLevel)livingEntity.level();
+        int particleAmplifier = amplifier + 1;
+
+        if(Objects.equals(effectName, "big")) {
+            particleAmplifier = particleAmplifier * (int)Math.round(5 * Math.pow(8, (amplifier - 1) / 9.0));
+        }
+
+        serverLevel.sendParticles(ParticleTypes.POOF, livingEntity.getX(), (livingEntity.getY() + (double)livingEntity.getBbHeight() / 2f), livingEntity.getZ(),
+                8 * particleAmplifier, 0.4, 0.5, 0.4, 0.2);
+        serverLevel.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
+                SoundEvents.SHULKER_BULLET_HIT, SoundSource.HOSTILE, 1.0f, 1.0f);
+
+        super.onEffectAdded(livingEntity, amplifier);
     }
 }

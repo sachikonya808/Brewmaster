@@ -59,7 +59,6 @@ public class LightningRodEffect  extends MobEffect {
         if(duration%20 == 0){
             Random random = new Random();
             int randomInt = random.nextInt(100);
-
             int chance = 5 * (amplifier+1) * (isRaining ? 2 : 1);
 
             return randomInt <= chance;

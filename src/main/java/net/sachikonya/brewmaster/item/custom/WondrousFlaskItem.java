@@ -144,6 +144,14 @@ public class WondrousFlaskItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        switch (getTier(stack).ordinal()) {
+            case 1 -> tooltipComponents.add(Component.translatable("tooltip.brewmaster.flask_iron").withStyle(ChatFormatting.WHITE));
+            case 2 -> tooltipComponents.add(Component.translatable("tooltip.brewmaster.flask_gold").withStyle(ChatFormatting.GOLD));
+            case 3 -> tooltipComponents.add(Component.translatable("tooltip.brewmaster.flask_diamond").withStyle(ChatFormatting.AQUA));
+            case 4 -> tooltipComponents.add(Component.translatable("tooltip.brewmaster.flask_netherite").withStyle(ChatFormatting.DARK_PURPLE));
+            default -> tooltipComponents.add(Component.translatable("tooltip.brewmaster.flask_base").withStyle(ChatFormatting.GREEN));
+        }
+
         List<Component> lines = new ArrayList<>();
         IFluidHandler fluidHandler = stack.getCapability(Capabilities.FluidHandler.ITEM, null);
 

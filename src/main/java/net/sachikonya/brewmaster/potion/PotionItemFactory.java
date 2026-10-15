@@ -8,7 +8,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.sachikonya.brewmaster.item.custom.WondrousFlaskItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,5 +69,21 @@ public class PotionItemFactory {
         }
 
         return rarity;
+    }
+
+
+    public static ItemStack fillFlask(ItemStack input, FluidStack portion) {
+        ItemStack output = input.copyWithCount(1);
+
+        portion.setAmount(WondrousFlaskItem.DOSE);
+
+        IFluidHandlerItem flaskHandler = output.getCapability(Capabilities.FluidHandler.ITEM);
+        if(flaskHandler == null) { return null; }
+
+        int accepted = flaskHandler.fill(portion, IFluidHandler.FluidAction.SIMULATE);
+        if(accepted != WondrousFlaskItem.DOSE) { return null; }
+
+        flaskHandler.fill(portion, IFluidHandler.FluidAction.EXECUTE);
+        return flaskHandler.getContainer();
     }
 }

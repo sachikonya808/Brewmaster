@@ -34,6 +34,12 @@
   "tooltip.brewmaster.empty_fluid": "Empty",
   "tooltip.brewmaster.amount": "Amount: %s / %s mB",
   "tooltip.brewmaster.charges": "Charges: %s / %s",
+  "tooltip.brewmaster.flask_base": "Base Flask",
+  "tooltip.brewmaster.flask_iron": "Tier: Iron",
+  "tooltip.brewmaster.flask_gold": "Tier: Gold",
+  "tooltip.brewmaster.flask_diamond": "Tier: Diamond",
+  "tooltip.brewmaster.flask_netherite": "Tier: Netherite",
+
 
   "potion.potency.6": "VII",
   "potion.potency.7": "VIII",

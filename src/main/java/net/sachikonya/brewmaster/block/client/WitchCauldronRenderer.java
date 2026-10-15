@@ -80,6 +80,7 @@ public class WitchCauldronRenderer implements BlockEntityRenderer<WitchCauldronB
         float tiltZ = isEmpty ? Mth.cos(time / 23f) * 3f : 0f;
         float spin = isEmpty ? time * 1.2f : 0f; //rotation
         float height = flat ? 0.1f : 0.08f; //
+
         //holy hack
         height = isEmpty ? (flat ? 0f : -0.2f) : height;
 
