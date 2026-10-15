@@ -7,6 +7,7 @@ import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.sachikonya.brewmaster.Brewmaster;
+import net.sachikonya.brewmaster.item.FlaskUpgradeData;
 import net.sachikonya.brewmaster.potion.PotionMixture;
 
 public class ModDataComponents {
@@ -22,6 +23,11 @@ public class ModDataComponents {
             DATA_COMPONENTS.registerComponentType("flask_fluid", builder -> builder
                     .persistent(SimpleFluidContent.CODEC)
                     .networkSynchronized(SimpleFluidContent.STREAM_CODEC));
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<FlaskUpgradeData>> FLASK_UPGRADE =
+            DATA_COMPONENTS.registerComponentType("flask_upgrade", builder -> builder
+                    .persistent(FlaskUpgradeData.CODEC)
+                    .networkSynchronized(FlaskUpgradeData.STREAM_CODEC));
 
     public static void register(IEventBus eventBus){
         DATA_COMPONENTS.register(eventBus);

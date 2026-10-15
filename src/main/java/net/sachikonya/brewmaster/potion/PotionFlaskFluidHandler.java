@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class PotionFlaskFluidHandler extends FluidHandlerItemStack {
     public PotionFlaskFluidHandler(ItemStack container) {
-        super(ModDataComponents.FLASK_FLUID, container, WondrousFlaskItem.BASE_CAPACITY);
+        super(ModDataComponents.FLASK_FLUID, container, WondrousFlaskItem.getMaxCapacity(container));
     }
 
     @Override

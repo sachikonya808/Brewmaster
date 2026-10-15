@@ -14,6 +14,8 @@
   "item.brewmaster.mixed_potion": "Mixed Potion",
   "fluid_type.brewmaster.potion": "Mixed Potion",
 
+  "jei.brewmaster.brewing_recipe_type": "Witch Cauldron Brewing",
+  "jei.brewmaster.flask_upgrade_type": "Wondrous Flask Upgrade",
   "jei.brewmaster.duration_bonus": "Duration Multiplier: %s",
   "jei.brewmaster.awkward_potion_required": "Requires %s!",
   "jei.brewmaster.info.nether_wart": "Test!",

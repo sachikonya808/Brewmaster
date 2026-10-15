@@ -13,15 +13,10 @@ public class ModItems {
     public static final DeferredRegister.Items ITEMS =
             DeferredRegister.createItems(Brewmaster.MODID);
 
-    /*
-    public static final DeferredHolder<Item, Item> WONDROUS_FLASK =
-            ITEMS.registerItem("wondrous_flask", WondrousFlaskItem::new, new Item.Properties().stacksTo(1));
-
-
-     */
-
     public static final DeferredItem<Item> WONDROUS_FLASK = ITEMS.register("wondrous_flask",
             () -> new WondrousFlaskItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> MAGIC_RUNE_A = ITEMS.registerSimpleItem("magic_rune_a");
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);

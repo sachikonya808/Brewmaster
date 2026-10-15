@@ -1,0 +1,6 @@
+{
+  "type": "brewmaster:flask_upgrade",
+  "template": { "item": "brewmaster:magic_rune_a" },
+  "addition": { "item": "minecraft:gold_ingot" },
+  "tier": 2
+}

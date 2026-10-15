@@ -7,6 +7,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.sachikonya.brewmaster.Brewmaster;
 import net.sachikonya.brewmaster.block.entity.ModBlockEntities;
 import net.sachikonya.brewmaster.item.ModItems;
+import net.sachikonya.brewmaster.item.custom.WondrousFlaskItem;
 import net.sachikonya.brewmaster.potion.PotionFlaskFluidHandler;
 
 @EventBusSubscriber(modid = Brewmaster.MODID)

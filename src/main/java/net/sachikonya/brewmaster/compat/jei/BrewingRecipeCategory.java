@@ -69,7 +69,7 @@ public class BrewingRecipeCategory implements IRecipeCategory<RecipeHolder<Brewi
 
     @Override
     public Component getTitle() {
-        return Component.translatable("block.brewmaster.witch_cauldron");
+        return Component.translatable("jei.brewmaster.brewing_recipe_type");
     }
 
     @Override

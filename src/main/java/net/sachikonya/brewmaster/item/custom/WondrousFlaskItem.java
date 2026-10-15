@@ -22,6 +22,8 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.sachikonya.brewmaster.fluid.ModFluids;
+import net.sachikonya.brewmaster.item.FlaskTier;
+import net.sachikonya.brewmaster.item.FlaskUpgradeData;
 import net.sachikonya.brewmaster.potion.PotionItemFactory;
 import net.sachikonya.brewmaster.potion.PotionMixture;
 import net.sachikonya.brewmaster.registry.ModDataComponents;
@@ -31,7 +33,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class WondrousFlaskItem extends Item {
-    public static final int BASE_CAPACITY = 1000;
     public static final int DOSE = 250;
     private static final int DRINK_TICKS = 32;
 
@@ -52,7 +53,7 @@ public class WondrousFlaskItem extends Item {
             return 0;
         }
 
-        return Math.round(13.0f * fluidHandler.getFluidInTank(0).getAmount() / (float) BASE_CAPACITY);
+        return Math.round(13.0f * fluidHandler.getFluidInTank(0).getAmount() / (float)getMaxCapacity(stack));
     }
 
     @Override
@@ -63,7 +64,7 @@ public class WondrousFlaskItem extends Item {
             return 0xFF0000;
         }
 
-        float remainingFluid = (float)fluidHandler.getFluidInTank(0).getAmount() / (float) BASE_CAPACITY;
+        float remainingFluid = (float)fluidHandler.getFluidInTank(0).getAmount() / (float)getMaxCapacity(stack);
         return Mth.hsvToRgb(remainingFluid / 3.0f, 1.0f, 1.0f);
     }
 
@@ -125,7 +126,6 @@ public class WondrousFlaskItem extends Item {
         level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundEvents.GENERIC_DRINK, SoundSource.PLAYERS, 1.0f, 1.0f);
         return updatedStack;
     }
-
     private static void applyPotionEffects(PotionContents contents, LivingEntity livingEntity) {
         if(!(livingEntity.level() instanceof ServerLevel)) {
             return;
@@ -163,7 +163,7 @@ public class WondrousFlaskItem extends Item {
         }
 
         tooltipComponents.addAll(lines);
-        tooltipComponents.add(Component.translatable("tooltip.brewmaster.charges", getRemainingCharges(stack), BASE_CAPACITY /DOSE));
+        tooltipComponents.add(Component.translatable("tooltip.brewmaster.charges", getRemainingCharges(stack), getMaxCharges(stack)));
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 
@@ -183,7 +183,26 @@ public class WondrousFlaskItem extends Item {
         return super.isFoil(stack) || hasEffects;
     }
 
-    private int getFluidTypeID(IFluidHandler fluidHandler) {
+    public static FlaskTier getTier(ItemStack itemStack) {
+        return FlaskTier.byIndex(itemStack.getOrDefault(ModDataComponents.FLASK_UPGRADE.get(), FlaskUpgradeData.DEFAULT).tier());
+    }
+
+    public static int getMaxCapacity(ItemStack itemStack) {
+        return getTier(itemStack).getCapacity();
+    }
+
+    public static int getMaxCharges(ItemStack itemStack) {
+        return getMaxCapacity(itemStack) / DOSE;
+    }
+
+    public static ItemStack withTier(ItemStack itemStack, FlaskTier flaskTier) {
+        ItemStack result = itemStack.copy();
+
+        result.set(ModDataComponents.FLASK_UPGRADE.get(), new FlaskUpgradeData(flaskTier.ordinal()));
+        return result;
+    }
+
+    private static int getFluidTypeID(IFluidHandler fluidHandler) {
         if(fluidHandler == null) { return 0; }
 
         if(fluidHandler.getFluidInTank(0).isEmpty()) { return 0; }
@@ -193,7 +212,7 @@ public class WondrousFlaskItem extends Item {
         return 0;
     }
 
-    private PotionMixture getPotionMixture(IFluidHandler fluidHandler) {
+    private static PotionMixture getPotionMixture(IFluidHandler fluidHandler) {
         if(!fluidHandler.getFluidInTank(0).is(ModFluids.POTION.get())) {
             return PotionMixture.EMPTY;
         }

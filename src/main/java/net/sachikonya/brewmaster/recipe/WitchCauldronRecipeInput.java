@@ -1,4 +1,4 @@
-package net.sachikonya.brewmaster.recipe;
+/*package net.sachikonya.brewmaster.recipe;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
@@ -15,3 +15,4 @@ public record WitchCauldronRecipeInput(ItemStack input) implements RecipeInput {
         return 1;
     }
 }
+*/

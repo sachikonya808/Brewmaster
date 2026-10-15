@@ -15,16 +15,16 @@ public class ModRecipes {
     public static final DeferredRegister<RecipeType<?>> TYPES =
             DeferredRegister.create(Registries.RECIPE_TYPE, Brewmaster.MODID);
 
-    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<WitchCauldronRecipe>> WITCH_CAULDRON_SERIALIZER =
-            SERIALIZERS.register("witch_cauldron", WitchCauldronRecipe.Serializer::new);
+//    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<WitchCauldronRecipe>> WITCH_CAULDRON_SERIALIZER =
+//            SERIALIZERS.register("witch_cauldron", WitchCauldronRecipe.Serializer::new);
 
-    public static final DeferredHolder<RecipeType<?>, RecipeType<WitchCauldronRecipe>> WITCH_CAULDRON_TYPE =
-            TYPES.register("witch_cauldron", () -> new RecipeType<WitchCauldronRecipe>() {
-                @Override
-                public String toString() {
-                    return "witch_cauldron";
-                }
-            });
+//    public static final DeferredHolder<RecipeType<?>, RecipeType<WitchCauldronRecipe>> WITCH_CAULDRON_TYPE =
+//            TYPES.register("witch_cauldron", () -> new RecipeType<WitchCauldronRecipe>() {
+//                @Override
+//                public String toString() {
+//                    return "witch_cauldron";
+//                }
+//            });
 
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<BrewingRecipe>> BREWING_SERIALIZER =
             SERIALIZERS.register("witch_cauldron_brewing", BrewingRecipe.Serializer::new);
@@ -36,6 +36,9 @@ public class ModRecipes {
                     return "witch_cauldron_brewing";
                 }
             });
+
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<FlaskUpgradeRecipe>> FLASK_UPGRADE =
+            SERIALIZERS.register("flask_upgrade", FlaskUpgradeRecipe.Serializer::new);
 
     public static void register (IEventBus eventBus) {
         SERIALIZERS.register(eventBus);

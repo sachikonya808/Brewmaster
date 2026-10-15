@@ -29,6 +29,7 @@ public class ModCreativeModeTabs {
                         // Register the items to a creative tab
                         output.accept(ModBlocks.WITCH_CAULDRON);
                         output.accept(ModItems.WONDROUS_FLASK);
+                        output.accept(ModItems.MAGIC_RUNE_A);
                     })
                     .build());
 

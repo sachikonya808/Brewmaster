@@ -1,4 +1,4 @@
-package net.sachikonya.brewmaster.recipe;
+/*package net.sachikonya.brewmaster.recipe;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -85,3 +85,4 @@ public record WitchCauldronRecipe(Ingredient inputItem, ItemStack output) implem
         }
     }
 }
+*/
