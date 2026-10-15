@@ -153,10 +153,13 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
     }
 
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {
-//        if(tank.isEmpty() || (getPotionMixture() == PotionMixture.EMPTY) || hasWater()) {     the fix for a bug creates an
-//            ingredientsUsed = 0;                                                              even worse bug, bruh
-//            setChanged();
-//        }
+        if(getPotionMixture() != PotionMixture.EMPTY) {
+            syncIngredientCount();
+            setChanged();
+        } else {
+            ingredientsUsed = 0;
+            setChanged();
+        }
 
         if(!isHeated()) {
             resetProgress();
@@ -319,6 +322,11 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
 
     public boolean hasWater() {
         return tank.getFluid().is(Fluids.WATER);
+    }
+
+    public void syncIngredientCount() {
+        PotionMixture mixture = getPotionMixture();
+        ingredientsUsed = mixture.ingredientsAdded();
     }
 
     public boolean canAddIngredients() {

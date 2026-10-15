@@ -29,6 +29,7 @@ public class BrewingRecipeLookup {
             result = result.addDurationMultiplier(recipe.durationMultiplierAddition());
         }
 
+        result = result.addUsedIngredientCount(1);
         return result;
     }
 }

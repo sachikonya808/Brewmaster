@@ -1,6 +1,5 @@
 package net.sachikonya.brewmaster.potion;
 
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
@@ -12,7 +11,7 @@ import java.util.Objects;
 
 public class PotionFlaskFluidHandler extends FluidHandlerItemStack {
     public PotionFlaskFluidHandler(ItemStack container) {
-        super(ModDataComponents.FLASK_FLUID, container, WondrousFlaskItem.MAX_CAPACITY);
+        super(ModDataComponents.FLASK_FLUID, container, WondrousFlaskItem.BASE_CAPACITY);
     }
 
     @Override

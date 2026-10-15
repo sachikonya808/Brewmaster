@@ -88,7 +88,7 @@ public class BrewingRecipeCategory implements IRecipeCategory<RecipeHolder<Brewi
                 Component text = Component.translatable("jei.brewmaster.duration_bonus", (extra > 0 ? "+" : "-") + Math.round(extra * 100) + "%");
                 tooltip.add(text);
             } else {
-                tooltip.addAll(new PotionMixture(brewingRecipe.effectDataList(), 1.0).getTooltipLines());
+                tooltip.addAll(new PotionMixture(brewingRecipe.effectDataList(), 1.0, 1).getTooltipLines());
             }
             Component catalyst = Component.translatable("jei.brewmaster.awkward_potion_required",Component.translatable("item.minecraft.potion.effect.awkward")).withStyle(ChatFormatting.DARK_GRAY).withStyle(ChatFormatting.ITALIC);
             tooltip.add(catalyst);
@@ -107,7 +107,7 @@ public class BrewingRecipeCategory implements IRecipeCategory<RecipeHolder<Brewi
         drawBubbles(guiGraphics, 65, 17);
 
         BrewingRecipe brewingRecipe = recipe.value();
-        int color = new PotionMixture(brewingRecipe.effectDataList(),1.0).getPotionColor();
+        int color = new PotionMixture(brewingRecipe.effectDataList(),1.0, 1).getPotionColor();
         CauldronFluidRender.render(guiGraphics, TANK_X, TANK_Y, TANK_H, color);
     }
 

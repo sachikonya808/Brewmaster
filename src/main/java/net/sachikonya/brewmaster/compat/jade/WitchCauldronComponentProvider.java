@@ -44,7 +44,7 @@ public enum WitchCauldronComponentProvider implements IBlockComponentProvider, I
 
         if(data.contains("Max")) {
             iTooltip.add(Component.translatable("jade.brewmaster.ingredients", data.getInt("Used"), data.getInt("Max")).withStyle(ChatFormatting.ITALIC)
-                    .withStyle((data.getInt("Max") == data.getInt("Used") ? ChatFormatting.RED : ChatFormatting.WHITE)));
+                    .withStyle((data.getInt("Used") >= data.getInt("Max") ? ChatFormatting.RED : ChatFormatting.WHITE)));
         }
     }
 

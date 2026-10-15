@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class WondrousFlaskItem extends Item {
-    public static final int MAX_CAPACITY = 1000;
+    public static final int BASE_CAPACITY = 1000;
     public static final int DOSE = 250;
     private static final int DRINK_TICKS = 32;
 
@@ -52,7 +52,7 @@ public class WondrousFlaskItem extends Item {
             return 0;
         }
 
-        return Math.round(13.0f * fluidHandler.getFluidInTank(0).getAmount() / (float)MAX_CAPACITY);
+        return Math.round(13.0f * fluidHandler.getFluidInTank(0).getAmount() / (float) BASE_CAPACITY);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class WondrousFlaskItem extends Item {
             return 0xFF0000;
         }
 
-        float remainingFluid = (float)fluidHandler.getFluidInTank(0).getAmount() / (float)MAX_CAPACITY;
+        float remainingFluid = (float)fluidHandler.getFluidInTank(0).getAmount() / (float) BASE_CAPACITY;
         return Mth.hsvToRgb(remainingFluid / 3.0f, 1.0f, 1.0f);
     }
 
@@ -163,7 +163,7 @@ public class WondrousFlaskItem extends Item {
         }
 
         tooltipComponents.addAll(lines);
-        tooltipComponents.add(Component.translatable("tooltip.brewmaster.charges", getRemainingCharges(stack), MAX_CAPACITY/DOSE));
+        tooltipComponents.add(Component.translatable("tooltip.brewmaster.charges", getRemainingCharges(stack), BASE_CAPACITY /DOSE));
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 

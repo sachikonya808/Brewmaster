@@ -14,9 +14,9 @@ import net.minecraft.world.effect.MobEffectUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public record PotionMixture(List<PotionEffectData> effectDataList, double durationMultiplier) {
+public record PotionMixture(List<PotionEffectData> effectDataList, double durationMultiplier, int ingredientsAdded) {
     public static final PotionMixture EMPTY =
-            new PotionMixture(List.of(),1.0);
+            new PotionMixture(List.of(),1.0, 0);
 
     public static final Codec<PotionMixture> CODEC =
             RecordCodecBuilder.create(instance -> instance.group(
@@ -26,7 +26,10 @@ public record PotionMixture(List<PotionEffectData> effectDataList, double durati
                             .forGetter(PotionMixture::effectDataList),
                     Codec.DOUBLE
                             .fieldOf("duration_multiplier")
-                            .forGetter(PotionMixture::durationMultiplier)
+                            .forGetter(PotionMixture::durationMultiplier),
+                    Codec.INT
+                            .fieldOf("ingredients_added")
+                            .forGetter(PotionMixture::ingredientsAdded)
 
             ).apply(instance,PotionMixture::new));
 
@@ -62,17 +65,21 @@ public record PotionMixture(List<PotionEffectData> effectDataList, double durati
                             ));
                 }
 
-                return new PotionMixture(updatedEffects,durationMultiplier);
+                return new PotionMixture(updatedEffects,durationMultiplier, ingredientsAdded);
             }
         }
 
         //If not, add the effect to the array
         updatedEffects.add(effectAdded);
-        return new PotionMixture(updatedEffects, durationMultiplier);
+        return new PotionMixture(updatedEffects, durationMultiplier, ingredientsAdded);
     }
 
     public PotionMixture addDurationMultiplier(double amount) {
-        return new PotionMixture(effectDataList, (durationMultiplier + amount));
+        return new PotionMixture(effectDataList, (durationMultiplier + amount), ingredientsAdded);
+    }
+
+    public PotionMixture addUsedIngredientCount(int amount) {
+        return new PotionMixture(effectDataList, durationMultiplier, (ingredientsAdded + amount));
     }
 
     public int getFinalDuration(PotionEffectData effect) {

@@ -51,11 +51,7 @@ public class PotionItemFactory {
     }
 
     public static Rarity getRarity(PotionMixture mixture) {
-        int score = 0;
-
-        for(PotionEffectData effectData : mixture.effectDataList()) {
-            score += 1 + effectData.amplifier();
-        }
+        int score = mixture.ingredientsAdded();
 
         Rarity rarity;
         if(score >= 8) {

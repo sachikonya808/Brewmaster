@@ -16,11 +16,14 @@ public class LightningRodEffect  extends MobEffect {
         super(MobEffectCategory.HARMFUL, 0x6FFFFF);
     }
 
+    private boolean isRaining = false;
+
     @Override
     public boolean applyEffectTick(LivingEntity livingEntity, int amplifier) {
         if (livingEntity instanceof LivingEntity entity) {
             if(!livingEntity.isSpectator()) {
                 zapThisBitch(entity);
+                isRaining = entity.level().isRainingAt(entity.blockPosition());
             }
         }
         return super.applyEffectTick(livingEntity, amplifier);
@@ -49,14 +52,17 @@ public class LightningRodEffect  extends MobEffect {
                 15, 0.4, 0.5, 0.4, 0.2);
     }
 
+
+
     @Override
     public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
         if(duration%20 == 0){
             Random random = new Random();
             int randomInt = random.nextInt(100);
-            if(randomInt<=(5*(amplifier+1))){
-                return true;
-            }
+
+            int chance = 5 * (amplifier+1) * (isRaining ? 2 : 1);
+
+            return randomInt <= chance;
         }
 
         return false;
