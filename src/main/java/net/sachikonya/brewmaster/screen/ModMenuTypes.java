@@ -9,6 +9,7 @@ import net.neoforged.neoforge.network.IContainerFactory;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.sachikonya.brewmaster.Brewmaster;
+import net.sachikonya.brewmaster.screen.custom.SeaBlessedGourdMenu;
 import net.sachikonya.brewmaster.screen.custom.WitchCauldronMenu;
 
 public class ModMenuTypes {
@@ -18,8 +19,10 @@ public class ModMenuTypes {
     public static final DeferredHolder<MenuType<?>, MenuType<WitchCauldronMenu>> WITCH_CAULDRON_MENU =
             registerMenuType("witch_cauldron_menu", WitchCauldronMenu::new);
 
-    private static <T extends AbstractContainerMenu>DeferredHolder<MenuType<?>, MenuType<T>> registerMenuType(String name,
-                                                                                                              IContainerFactory<T> factory) {
+    public static final DeferredHolder<MenuType<?>, MenuType<SeaBlessedGourdMenu>> SEA_BLESSED_GOURD_MENU =
+            registerMenuType("sea_blesed_gourd_menu", SeaBlessedGourdMenu::new);
+
+    private static <T extends AbstractContainerMenu>DeferredHolder<MenuType<?>, MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
         return MENUS.register(name, () -> IMenuTypeExtension.create(factory));
     }
 

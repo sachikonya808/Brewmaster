@@ -19,6 +19,7 @@ import net.sachikonya.brewmaster.recipe.ExtraBrewingStandRecipes;
 import net.sachikonya.brewmaster.recipe.ModRecipes;
 import net.sachikonya.brewmaster.registry.ModDataComponents;
 import net.sachikonya.brewmaster.screen.ModMenuTypes;
+import net.sachikonya.brewmaster.screen.custom.SeaBlessedGourdScreen;
 import net.sachikonya.brewmaster.screen.custom.WitchCauldronScreen;
 import org.slf4j.Logger;
 
@@ -108,6 +109,7 @@ public class Brewmaster {
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.WITCH_CAULDRON_MENU.get(), WitchCauldronScreen::new);
+            event.register(ModMenuTypes.SEA_BLESSED_GOURD_MENU.get(), SeaBlessedGourdScreen::new);
         }
 
         @SubscribeEvent

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brewmaster:item/wondrous_flask",
+    "layer1": "brewmaster:item/wondrous_flask_liquid_full"
+  }
+}

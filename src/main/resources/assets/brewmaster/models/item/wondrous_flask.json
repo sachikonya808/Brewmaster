@@ -1,0 +1,26 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brewmaster:item/wondrous_flask"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "brewmaster:fill_level": 0.01
+      },
+      "model": "brewmaster:item/wondrous_flask_low"
+    },
+    {
+      "predicate": {
+        "brewmaster:fill_level": 0.3
+      },
+      "model": "brewmaster:item/wondrous_flask_half"
+    },
+    {
+      "predicate": {
+        "brewmaster:fill_level": 0.75
+      },
+      "model": "brewmaster:item/wondrous_flask_full"
+    }
+  ]
+}

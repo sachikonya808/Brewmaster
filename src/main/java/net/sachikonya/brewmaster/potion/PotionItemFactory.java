@@ -12,6 +12,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.sachikonya.brewmaster.fluid.PotionFlaskFluidHandler;
 import net.sachikonya.brewmaster.item.custom.WondrousFlaskItem;
 
 import java.util.ArrayList;
@@ -75,13 +76,13 @@ public class PotionItemFactory {
     public static ItemStack fillFlask(ItemStack input, FluidStack portion) {
         ItemStack output = input.copyWithCount(1);
 
-        portion.setAmount(WondrousFlaskItem.DOSE);
+        portion.setAmount(PotionFlaskFluidHandler.DOSE);
 
         IFluidHandlerItem flaskHandler = output.getCapability(Capabilities.FluidHandler.ITEM);
         if(flaskHandler == null) { return null; }
 
         int accepted = flaskHandler.fill(portion, IFluidHandler.FluidAction.SIMULATE);
-        if(accepted != WondrousFlaskItem.DOSE) { return null; }
+        if(accepted != PotionFlaskFluidHandler.DOSE) { return null; }
 
         flaskHandler.fill(portion, IFluidHandler.FluidAction.EXECUTE);
         return flaskHandler.getContainer();

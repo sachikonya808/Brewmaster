@@ -29,6 +29,8 @@ public class PowderTrailEffect extends MobEffect {
                 serverLevel.explode(null, Explosion.getDefaultDamageSource(serverLevel, livingEntity), null,
                         livingEntity.getX(), (livingEntity.getY() + (double) livingEntity.getBbHeight() / 2f), livingEntity.getZ(),
                         power, false, Level.ExplosionInteraction.NONE);
+
+                ParticleHelpers.spawnPoofExplosion(serverLevel, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), power*2);
             }
         }
         return super.applyEffectTick(livingEntity, amplifier);

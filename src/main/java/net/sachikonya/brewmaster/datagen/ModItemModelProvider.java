@@ -14,7 +14,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         //Add items here
-
-        basicItem(ModItems.WONDROUS_FLASK.get());
+        basicItem(ModItems.SEA_BLESSED_GOURD.get());
+        basicItem(ModItems.MAGIC_RUNE_A.get());
     }
 }

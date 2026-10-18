@@ -108,7 +108,7 @@ public class BrewingRecipeCategory implements IRecipeCategory<RecipeHolder<Brewi
 
         BrewingRecipe brewingRecipe = recipe.value();
         int color = new PotionMixture(brewingRecipe.effectDataList(),1.0, 1).getPotionColor();
-        CauldronFluidRender.render(guiGraphics, TANK_X, TANK_Y, TANK_H, color);
+        CauldronFluidRender.render(guiGraphics, TANK_X, TANK_Y, TANK_H, TANK_W, color);
     }
 
     @Override

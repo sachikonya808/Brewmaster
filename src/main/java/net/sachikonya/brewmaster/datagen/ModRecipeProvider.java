@@ -6,9 +6,11 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import net.sachikonya.brewmaster.block.ModBlocks;
+import net.sachikonya.brewmaster.item.ModItems;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -21,13 +23,23 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     @Override
     protected void buildRecipes(RecipeOutput recipeOutput) {
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.WITCH_CAULDRON.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModBlocks.WITCH_CAULDRON.get())
                 .pattern("B B")
                 .pattern("BAB")
                 .pattern("BBB")
                 .define('B', Items.IRON_INGOT.asItem())
-                .define('A', Items.STICK.asItem())
-                .unlockedBy("has_iron", has(Items.IRON_INGOT)).save(recipeOutput);
+                .define('A', Items.AMETHYST_SHARD.asItem())
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModItems.WONDROUS_FLASK.get())
+                .pattern("ABA")
+                .pattern(" C ")
+                .define('A', Items.COPPER_INGOT.asItem())
+                .define('B', Items.GLASS_BOTTLE.asItem())
+                .define('C', ItemTags.SAPLINGS)
+                .unlockedBy("has_glass_bottle", has(Items.GLASS_BOTTLE))
+                .save(recipeOutput);
 
 
     }
