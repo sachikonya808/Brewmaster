@@ -70,11 +70,13 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
     private int ingredientsUpgrade = 0;
     private int ingredientsUsed = 0;
 
-    protected final ContainerData data;
+
     private int fuel = 0;
     private int progress, bottlingProgress = 0;
     private int maxProgress, bottlingMaxProgress = 72;
 
+    protected final ContainerData data;
+    public static final int CONTAINER_DATA_SIZE = 9;
     public WitchCauldronBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.WITCH_CAULDRON_BE.get(), pos, blockState);
         data = new ContainerData() {
@@ -107,7 +109,7 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
             }
 
             @Override
-            public int getCount() { return 9; } //<-- How many variables are going to get stored inside the constructor!
+            public int getCount() { return CONTAINER_DATA_SIZE; } //<-- How many variables are going to get stored inside the constructor!
         };
     }
 

@@ -47,16 +47,14 @@ public class BigSmallEffect extends MobEffect {
     }
 
     @Override
-    public void onEffectAdded(LivingEntity livingEntity, int amplifier) {
+    public void onEffectStarted(LivingEntity livingEntity, int amplifier) {
         ServerLevel serverLevel = (ServerLevel)livingEntity.level();
-        int particleAmplifier = amplifier + 1;
+        float particleAmplifier = amplifier + 1;
 
-        if(Objects.equals(effectName, "big")) {
-            particleAmplifier = particleAmplifier * (int)Math.round(5 * Math.pow(8, (amplifier - 1) / 9.0));
-        }
+        ParticleHelpers.spawnBigSmallParticles(serverLevel,
+                livingEntity.getX(), (livingEntity.getY()+ (double)livingEntity.getBbHeight() / 2f), livingEntity.getZ(),
+                particleAmplifier, effectName);
 
-        serverLevel.sendParticles(ParticleTypes.POOF, livingEntity.getX(), (livingEntity.getY() + (double)livingEntity.getBbHeight() / 2f), livingEntity.getZ(),
-                8 * particleAmplifier, 0.4, 0.5, 0.4, 0.2);
         serverLevel.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
                 SoundEvents.SHULKER_BULLET_HIT, SoundSource.HOSTILE, 1.0f, 1.0f);
 

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:copper_ingot"
+    },
+    "B": {
+      "item": "minecraft:glass_bottle"
+    },
+    "C": {
+      "tag": "minecraft:saplings"
+    }
+  },
+  "pattern": [
+    "ABA",
+    " C "
+  ],
+  "result": {
+    "count": 1,
+    "id": "brewmaster:wondrous_flask"
+  }
+}

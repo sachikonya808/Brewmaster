@@ -21,7 +21,9 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.sachikonya.brewmaster.fluid.FluidCapacityProvider;
 import net.sachikonya.brewmaster.fluid.ModFluids;
+import net.sachikonya.brewmaster.fluid.PotionFlaskFluidHandler;
 import net.sachikonya.brewmaster.item.FlaskTier;
 import net.sachikonya.brewmaster.item.FlaskUpgradeData;
 import net.sachikonya.brewmaster.potion.PotionItemFactory;
@@ -32,10 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class WondrousFlaskItem extends Item {
-    public static final int DOSE = 250;
-    private static final int DRINK_TICKS = 32;
-
+public class WondrousFlaskItem extends Item implements FluidCapacityProvider {
     public WondrousFlaskItem(Properties properties) {
         super(properties);
     }
@@ -70,7 +69,7 @@ public class WondrousFlaskItem extends Item {
 
     @Override
     public int getUseDuration(ItemStack stack, LivingEntity entity) {
-        return DRINK_TICKS;
+        return PotionFlaskFluidHandler.DRINK_TICKS;
     }
 
     @Override
@@ -83,7 +82,7 @@ public class WondrousFlaskItem extends Item {
         ItemStack itemStack = player.getItemInHand(usedHand);
         IFluidHandler fluidHandler = itemStack.getCapability(Capabilities.FluidHandler.ITEM);
 
-        if(fluidHandler == null || fluidHandler.getFluidInTank(0).getAmount() < DOSE) {
+        if(fluidHandler == null || fluidHandler.getFluidInTank(0).getAmount() < PotionFlaskFluidHandler.DOSE) {
             return InteractionResultHolder.fail(itemStack);
         }
 
@@ -102,7 +101,7 @@ public class WondrousFlaskItem extends Item {
         }
 
         FluidStack storedFluid = fluidHandler.getFluidInTank(0);
-        if(storedFluid.isEmpty() || storedFluid.getAmount() < DOSE) {
+        if(storedFluid.isEmpty() || storedFluid.getAmount() < PotionFlaskFluidHandler.DOSE) {
             return stack;
         }
 
@@ -111,35 +110,21 @@ public class WondrousFlaskItem extends Item {
             return stack;
         }
 
-        FluidStack consumedFluid = fluidHandler.drain(DOSE, IFluidHandler.FluidAction.EXECUTE);
-        if(consumedFluid.getAmount() != DOSE) {
+        FluidStack consumedFluid = fluidHandler.drain(PotionFlaskFluidHandler.DOSE, IFluidHandler.FluidAction.EXECUTE);
+        if(consumedFluid.getAmount() != PotionFlaskFluidHandler.DOSE) {
             return stack;
         }
+
         ItemStack updatedStack = fluidHandler.getContainer();
 
         ItemStack potion = PotionItemFactory.createPotion(potionMixture);
         PotionContents potionContents = potion.get(DataComponents.POTION_CONTENTS);
         if(potionContents != null && potionContents.hasEffects()) {
-            applyPotionEffects(potionContents, livingEntity);
+            PotionFlaskFluidHandler.applyPotionEffects(potionContents, livingEntity);
         }
 
         level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundEvents.GENERIC_DRINK, SoundSource.PLAYERS, 1.0f, 1.0f);
         return updatedStack;
-    }
-    private static void applyPotionEffects(PotionContents contents, LivingEntity livingEntity) {
-        if(!(livingEntity.level() instanceof ServerLevel)) {
-            return;
-        }
-
-        for(MobEffectInstance effectInstance : contents.getAllEffects()) {
-            MobEffect mobEffect = effectInstance.getEffect().value();
-
-            if(mobEffect.isInstantenous()) {
-                mobEffect.applyInstantenousEffect(livingEntity, livingEntity, livingEntity, effectInstance.getAmplifier(), 1.0);
-            } else {
-                livingEntity.addEffect(new MobEffectInstance(effectInstance));
-            }
-        }
     }
 
     @Override
@@ -155,40 +140,34 @@ public class WondrousFlaskItem extends Item {
         List<Component> lines = new ArrayList<>();
         IFluidHandler fluidHandler = stack.getCapability(Capabilities.FluidHandler.ITEM, null);
 
-        int i = getFluidTypeID(fluidHandler);
+        int i = PotionFlaskFluidHandler.getFluidTypeID(fluidHandler);
         switch (i) {
             case 0 -> lines.add(Component.translatable("tooltip.brewmaster.empty_fluid"));
             case 1 -> lines.add(Component.translatable("block.minecraft.water"));
             case 2 -> {
-                if(getPotionMixture(fluidHandler).isPotionEmpty()) {
+                if(PotionFlaskFluidHandler.getPotionMixture(fluidHandler).isPotionEmpty()) {
                    lines.add(Component.translatable("effect.none").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
                 } else {
                     lines.add(Component.translatable("item.brewmaster.mixed_potion").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
-                    lines.addAll(getPotionMixture(fluidHandler).getTooltipLines());
+                    lines.addAll(PotionFlaskFluidHandler.getPotionMixture(fluidHandler).getTooltipLines());
                 }
             }
             default -> lines.add(Component.literal("!!! UNKNOWN FLUID !!!").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.DARK_RED));
         }
 
         tooltipComponents.addAll(lines);
-        tooltipComponents.add(Component.translatable("tooltip.brewmaster.charges", getRemainingCharges(stack), getMaxCharges(stack)));
+        tooltipComponents.add(Component.translatable("tooltip.brewmaster.charges", PotionFlaskFluidHandler.getRemainingCharges(stack), PotionFlaskFluidHandler.getMaxCharges(getMaxCapacity(stack))));
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 
     @Override
     public boolean isFoil(ItemStack stack) {
-        IFluidHandler fluidHandler = stack.getCapability(Capabilities.FluidHandler.ITEM, null);
-        if(fluidHandler == null || fluidHandler.getFluidInTank(0).isEmpty()) { return super.isFoil(stack); }
+        return PotionFlaskFluidHandler.shouldGlow(stack);
+    }
 
-        PotionMixture mixture = getPotionMixture(fluidHandler);
-        boolean hasEffects = mixture != null && getPotionMixture(fluidHandler) != PotionMixture.EMPTY;
-
-        if(mixture != null && !mixture.effectDataList().isEmpty()) {
-            Rarity rarity = PotionItemFactory.getRarity(mixture);
-            updateRarity(stack, rarity);
-        }
-
-        return super.isFoil(stack) || hasEffects;
+    @Override
+    public int getFluidCapacity(ItemStack itemStack) {
+        return getMaxCapacity(itemStack);
     }
 
     public static FlaskTier getTier(ItemStack itemStack) {
@@ -199,44 +178,11 @@ public class WondrousFlaskItem extends Item {
         return getTier(itemStack).getCapacity();
     }
 
-    public static int getMaxCharges(ItemStack itemStack) {
-        return getMaxCapacity(itemStack) / DOSE;
-    }
-
     public static ItemStack withTier(ItemStack itemStack, FlaskTier flaskTier) {
         ItemStack result = itemStack.copy();
 
         result.set(ModDataComponents.FLASK_UPGRADE.get(), new FlaskUpgradeData(flaskTier.ordinal()));
         return result;
-    }
-
-    private static int getFluidTypeID(IFluidHandler fluidHandler) {
-        if(fluidHandler == null) { return 0; }
-
-        if(fluidHandler.getFluidInTank(0).isEmpty()) { return 0; }
-        if(fluidHandler.getFluidInTank(0).is(Fluids.WATER)) { return 1; }
-        if(fluidHandler.getFluidInTank(0).is(ModFluids.POTION.get())) { return 2; }
-
-        return 0;
-    }
-
-    private static PotionMixture getPotionMixture(IFluidHandler fluidHandler) {
-        if(!fluidHandler.getFluidInTank(0).is(ModFluids.POTION.get())) {
-            return PotionMixture.EMPTY;
-        }
-
-        return fluidHandler.getFluidInTank(0).getOrDefault(ModDataComponents.POTION_MIXTURE.get(), PotionMixture.EMPTY);
-    }
-
-    private static void updateRarity(ItemStack itemStack, Rarity rarity) {
-        itemStack.set(DataComponents.RARITY, rarity);
-    }
-
-    public static int getRemainingCharges(ItemStack itemStack) {
-        IFluidHandlerItem fluidHandlerItem = itemStack.getCapability(Capabilities.FluidHandler.ITEM, null);
-        if(fluidHandlerItem == null) { return 0; }
-
-        return fluidHandlerItem.getFluidInTank(0).getAmount() / DOSE;
     }
 
     public static boolean canFillFluidType(ItemStack flask, FluidStack fluid) {

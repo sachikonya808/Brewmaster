@@ -24,7 +24,7 @@ public class WitchCauldronMenu extends AbstractContainerMenu {
     public static final int MENU_HEIGHT = 188;
 
     public WitchCauldronMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(9)); // <--- MUST BE THE SAME AS getCount() OR IT'LL CRASH
+        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(WitchCauldronBlockEntity.CONTAINER_DATA_SIZE)); // <--- MUST BE THE SAME AS getCount() OR IT'LL CRASH
     }
 
     public WitchCauldronMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
@@ -83,6 +83,12 @@ public class WitchCauldronMenu extends AbstractContainerMenu {
         return BUBBLELENGTHS[data.get(0) / 2 % 7];
     }
 
+    @Override
+    public boolean stillValid(Player pPlayer) {
+        return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
+                pPlayer, ModBlocks.WITCH_CAULDRON.get());
+    }
+
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
     // must assign a slot number to each of the slots used by the GUI.
     // For this container, we can see both the tile inventory's slots as well as the player inventory slots and the hotbar.
@@ -131,12 +137,6 @@ public class WitchCauldronMenu extends AbstractContainerMenu {
         }
         sourceSlot.onTake(playerIn, sourceStack);
         return copyOfSourceStack;
-    }
-
-    @Override
-    public boolean stillValid(Player pPlayer) {
-        return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                pPlayer, ModBlocks.WITCH_CAULDRON.get());
     }
 
     private void addPlayerInventory(Inventory playerInventory) {

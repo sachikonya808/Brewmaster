@@ -59,7 +59,7 @@ public class WitchCauldronScreen extends AbstractContainerScreen<WitchCauldronMe
         int height = maxHeight * menu.getBrewAmount() / WitchCauldronBlockEntity.CAPACITY;
         int color = menu.getFluidType() == 2 ? menu.getPotionMixture().getPotionColor() : CauldronFluidRender.WATER_COLOR;
 
-        CauldronFluidRender.render(guiGraphics, x + 63, y + 48 + (maxHeight - height), height, color);
+        CauldronFluidRender.render(guiGraphics, x + 63, y + 48 + (maxHeight - height), height, 52, color);
     }
 
     private void renderProgressArrow(GuiGraphics guiGraphics, int x, int y) {

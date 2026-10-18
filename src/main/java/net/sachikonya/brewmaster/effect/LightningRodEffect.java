@@ -35,24 +35,14 @@ public class LightningRodEffect  extends MobEffect {
         }
 
         LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(level);
-
         if(lightningBolt == null) {
             return;
         }
-
         lightningBolt.setPos(target.getX(), target.getY(), target.getZ());
-
         level.addFreshEntity(lightningBolt);
 
-        level.sendParticles(ParticleTypes.ELECTRIC_SPARK,
-                target.getX(), target.getY(), target.getZ(),
-                40, 0.5, 0.6, 0.5, 0.15);
-        level.sendParticles(ParticleTypes.CRIT,
-                target.getX(), target.getY(), target.getZ(),
-                15, 0.4, 0.5, 0.4, 0.2);
+        ParticleHelpers.spawnLightningStrikeParticles(level, target.getX(), target.getY(), target.getZ());
     }
-
-
 
     @Override
     public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {

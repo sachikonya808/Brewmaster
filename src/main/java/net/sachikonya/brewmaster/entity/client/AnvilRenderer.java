@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.sachikonya.brewmaster.entity.custom.AnvilEntity;
 import org.jetbrains.annotations.NotNull;
 
+// Anvil Entity + Behavior by Xylonity, from their Companions Mod: https://github.com/Xylonity/Companions
 public class AnvilRenderer extends EntityRenderer<AnvilEntity> {
     public AnvilRenderer(EntityRendererProvider.Context context) {
         super(context);
