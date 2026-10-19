@@ -85,7 +85,8 @@ public class BrewingRecipeCategory implements IRecipeCategory<RecipeHolder<Brewi
         if(mouseX >= TANK_X && mouseX < TANK_X+TANK_W && mouseY >= TANK_Y && mouseY < TANK_Y+TANK_H) {
             tooltip.add(Component.translatable("item.brewmaster.mixed_potion").withStyle(ChatFormatting.ITALIC));
             if(extra != 0){
-                Component text = Component.translatable("jei.brewmaster.duration_bonus", (extra > 0 ? "+" : "-") + Math.round(extra * 100) + "%");
+                Component text = Component.translatable("jei.brewmaster.duration_bonus", (extra > 0 ? "+" : "-") + Math.round(extra * 100) + "%")
+                        .withStyle(ChatFormatting.BLUE);
                 tooltip.add(text);
             } else {
                 tooltip.addAll(new PotionMixture(brewingRecipe.effectDataList(), 1.0, 1).getTooltipLines());

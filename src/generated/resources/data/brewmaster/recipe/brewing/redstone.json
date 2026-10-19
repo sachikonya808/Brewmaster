@@ -1,0 +1,7 @@
+{
+  "type": "brewmaster:witch_cauldron_brewing",
+  "duration_multiplier_addition": 5.5,
+  "ingredient": {
+    "item": "minecraft:redstone"
+  }
+}

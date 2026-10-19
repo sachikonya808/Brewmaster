@@ -1,0 +1,13 @@
+{
+  "type": "brewmaster:witch_cauldron_brewing",
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 0,
+      "effect": "minecraft:instant_health"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:glistering_melon_slice"
+  }
+}

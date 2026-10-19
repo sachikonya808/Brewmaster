@@ -1,15 +1,18 @@
 package net.sachikonya.brewmaster.screen.custom;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import net.sachikonya.brewmaster.block.ModBlocks;
 import net.sachikonya.brewmaster.block.entity.WitchCauldronBlockEntity;
+import net.sachikonya.brewmaster.item.ModItems;
 import net.sachikonya.brewmaster.potion.PotionMixture;
 import net.sachikonya.brewmaster.screen.ModMenuTypes;
 
@@ -36,9 +39,24 @@ public class WitchCauldronMenu extends AbstractContainerMenu {
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 0, 81, 19));
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 1, 126, 54));
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 2,31,34));
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, WitchCauldronBlockEntity.INGREDIENT_SLOT, 81, 19){
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return !stack.is(Items.GLASS_BOTTLE) && !stack.is(ModItems.WONDROUS_FLASK);
+            }
+        });
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, WitchCauldronBlockEntity.BOTTLE_SLOT, 126, 54){
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return stack.is(Items.GLASS_BOTTLE) || stack.is(ModItems.WONDROUS_FLASK);
+            }
+        });
+        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, WitchCauldronBlockEntity.FUEL_SLOT,31,34){
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return stack.is(Items.BLAZE_POWDER);
+            }
+        });
 
         addDataSlots(data);
     }

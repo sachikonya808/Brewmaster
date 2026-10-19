@@ -1,0 +1,13 @@
+{
+  "type": "brewmaster:witch_cauldron_brewing",
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 1800,
+      "effect": "minecraft:wind_charged"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:breeze_rod"
+  }
+}

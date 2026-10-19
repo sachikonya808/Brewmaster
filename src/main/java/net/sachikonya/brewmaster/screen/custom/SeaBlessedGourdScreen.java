@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.sachikonya.brewmaster.Brewmaster;
 import net.sachikonya.brewmaster.item.custom.SeaBlessedGourdItem;
 import net.sachikonya.brewmaster.screen.client.CauldronFluidRender;
+import net.sachikonya.brewmaster.screen.client.CauldronTooltipRender;
 
 public class SeaBlessedGourdScreen extends AbstractContainerScreen<SeaBlessedGourdMenu> {
 
@@ -54,8 +55,22 @@ public class SeaBlessedGourdScreen extends AbstractContainerScreen<SeaBlessedGou
     private void renderWaterTiles(GuiGraphics guiGraphics, int x, int y) {
         int maxHeight = 32;
         int height = maxHeight * menu.getBrewAmount() / menu.getCapacity();
-        int color = menu.getFluidType() == 2 ? menu.getPotionColor() : CauldronFluidRender.WATER_COLOR;
+        int color = menu.getFluidType() == 2 ? menu.getPotionMixture().getPotionColor() : CauldronFluidRender.WATER_COLOR;
 
         CauldronFluidRender.render(guiGraphics, x + 104, y + 30 + (maxHeight - height), height, 16, color);
+    }
+
+    private void renderFluidInsideGourdTooltip(GuiGraphics guiGraphics, int pMouseX, int pMouseY) {
+        if(isHovering(104, 30, 16, 32, pMouseX, pMouseY)) {
+            CauldronTooltipRender.render(guiGraphics, pMouseX, pMouseY, menu.getFluidType(), menu.getBrewAmount(), menu.getPotionMixture(), font);
+        }
+    }
+
+    @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
+        this.renderTooltip(guiGraphics, mouseX, mouseY);
+
+        renderFluidInsideGourdTooltip(guiGraphics, mouseX, mouseY);
     }
 }

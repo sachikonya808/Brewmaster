@@ -59,9 +59,9 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
         }
     };
 
-    private static final int INGREDIENT_SLOT = 0;
-    private static final int BOTTLE_SLOT = 1;
-    private static final int FUEL_SLOT = 2;
+    public static final int INGREDIENT_SLOT = 0;
+    public static final int BOTTLE_SLOT = 1;
+    public static final int FUEL_SLOT = 2;
 
     private static final int FUEL_USES = 20;
     public static final int FUEL_BONUS = 2;

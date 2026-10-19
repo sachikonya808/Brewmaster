@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffectUtil;
 
@@ -107,8 +108,12 @@ public record PotionMixture(List<PotionEffectData> effectDataList, double durati
                 line.append(" ").append(roman);
             }
 
+            MobEffect mobEffect = data.effect().value();
             MobEffectInstance temp = new MobEffectInstance(data.effect(), getFinalDuration(data), data.amplifier());
-            line.append(" (").append(MobEffectUtil.formatDuration(temp, 1.0f, 20f)).append(")");
+            if(!mobEffect.isInstantenous()) {
+                line.append(" (").append(MobEffectUtil.formatDuration(temp, 1.0f, 20f)).append(")");
+            }
+
             lines.add(line.withStyle(data.effect().value().getCategory().getTooltipFormatting()));
         }
         return lines;

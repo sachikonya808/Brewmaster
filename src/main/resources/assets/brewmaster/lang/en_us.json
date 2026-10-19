@@ -30,6 +30,7 @@
   "effect.brewmaster.warden_curse": "Warden's Curse",
   "effect.brewmaster.small": "Small",
   "effect.brewmaster.big": "Big",
+  "effect.brewmaster.lucky_potion": "Lucky Potion",
 
   "tooltip.brewmaster.empty_fluid": "Empty",
   "tooltip.brewmaster.amount": "Amount: %s / %s mB",
@@ -39,7 +40,10 @@
   "tooltip.brewmaster.flask_gold": "Tier: Gold",
   "tooltip.brewmaster.flask_diamond": "Tier: Diamond",
   "tooltip.brewmaster.flask_netherite": "Tier: Netherite",
+  "tooltip.brewmaster.lucky_potion_hint": "Anything could happen!",
 
+  "death.attack.brewmaster.heart_attack": "%1$s died from a heart attack",
+  "death.attack.brewmaster.heart_attack.player": "%1$s died from a heart attack thanks to %1$s",
 
   "potion.potency.6": "VII",
   "potion.potency.7": "VIII",

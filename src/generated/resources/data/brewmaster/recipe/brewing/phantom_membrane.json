@@ -1,0 +1,13 @@
+{
+  "type": "brewmaster:witch_cauldron_brewing",
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 1800,
+      "effect": "minecraft:slow_falling"
+    }
+  ],
+  "ingredient": {
+    "item": "minecraft:phantom_membrane"
+  }
+}

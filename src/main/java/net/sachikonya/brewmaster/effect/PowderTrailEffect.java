@@ -18,7 +18,7 @@ public class PowderTrailEffect extends MobEffect {
     @Override
     public boolean applyEffectTick(LivingEntity livingEntity, int amplifier) {
         Level level = livingEntity.level();
-        if(level instanceof ServerLevel && !livingEntity.isSpectator()) {
+        if(!level.isClientSide() && !livingEntity.isSpectator()) {
             ServerLevel serverLevel = (ServerLevel)level;
             serverLevel.sendParticles(ParticleTypes.SMOKE,
                     livingEntity.getX(), (livingEntity.getY() + (double)livingEntity.getBbHeight() / 2f), livingEntity.getZ(),

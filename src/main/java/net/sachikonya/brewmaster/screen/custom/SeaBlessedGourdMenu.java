@@ -84,13 +84,13 @@ public class SeaBlessedGourdMenu extends AbstractContainerMenu {
         return fluidHandler.getFluidInTank(0).getAmount();
     }
 
-    public int getPotionColor() {
+    public PotionMixture getPotionMixture() {
         IFluidHandler fluidHandler = getGourdStack().getCapability(Capabilities.FluidHandler.ITEM);
-        if(fluidHandler == null) { return CauldronFluidRender.WATER_COLOR; }
+        if(fluidHandler == null) { return PotionMixture.EMPTY; }
         PotionMixture mixture = fluidHandler.getFluidInTank(0).get(ModDataComponents.POTION_MIXTURE.get());
-        if(mixture == null) { return CauldronFluidRender.WATER_COLOR; }
+        if(mixture == null) { return PotionMixture.EMPTY; }
 
-        return mixture.getPotionColor();
+        return mixture;
     }
 
     public int getScaledDistillProgress() {

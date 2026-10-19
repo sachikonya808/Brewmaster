@@ -44,6 +44,15 @@ public class ModEffects {
     public static final DeferredHolder<MobEffect, BigSmallEffect> BIG =
             MOB_EFFECTS.register("big", () -> new BigSmallEffect(MobEffectCategory.NEUTRAL, 0x91D031, "big", 1f));
 
+    public static final DeferredHolder<MobEffect, LuckyPotionEffect> LUCKY_POTION =
+            MOB_EFFECTS.register("lucky_potion", () -> new LuckyPotionEffect(MobEffectCategory.NEUTRAL, 0xF6E769));
+
+    public static final DeferredHolder<MobEffect, MemoryLossEffect> MEMORY_LOSS =
+            MOB_EFFECTS.register("memory_loss", () -> new MemoryLossEffect(MobEffectCategory.HARMFUL, 0x8F648F));
+
+    public static final DeferredHolder<MobEffect, HighCholesterolEffect> HIGH_CHOLESTEROL =
+            MOB_EFFECTS.register("high_cholesterol", () -> new HighCholesterolEffect(MobEffectCategory.HARMFUL, 0xDBA213));
+
     public static void register(IEventBus eventBus) {
         MOB_EFFECTS.register(eventBus);
     }

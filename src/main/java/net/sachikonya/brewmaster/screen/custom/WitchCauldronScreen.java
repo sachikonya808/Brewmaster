@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.sachikonya.brewmaster.Brewmaster;
 import net.sachikonya.brewmaster.block.entity.WitchCauldronBlockEntity;
 import net.sachikonya.brewmaster.screen.client.CauldronFluidRender;
+import net.sachikonya.brewmaster.screen.client.CauldronTooltipRender;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +84,8 @@ public class WitchCauldronScreen extends AbstractContainerScreen<WitchCauldronMe
 
     private void renderFluidInsideTankTooltip(GuiGraphics guiGraphics, int pMouseX, int pMouseY) {
         if (isHovering(63, 48, 52, 34, pMouseX, pMouseY)) {
+            CauldronTooltipRender.render(guiGraphics, pMouseX, pMouseY, menu.getFluidType(), menu.getBrewAmount(), menu.getPotionMixture(), font);
+            /*
             List<Component> lines = new ArrayList<>();
 
             switch (menu.getFluidType()) {
@@ -102,6 +105,8 @@ public class WitchCauldronScreen extends AbstractContainerScreen<WitchCauldronMe
             lines.add(Component.translatable("tooltip.brewmaster.amount", menu.getBrewAmount(), WitchCauldronBlockEntity.CAPACITY).withStyle(ChatFormatting.GRAY));
 
             guiGraphics.renderComponentTooltip(font, lines, pMouseX, pMouseY);
+
+             */
         }
     }
 
