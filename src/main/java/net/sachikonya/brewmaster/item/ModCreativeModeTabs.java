@@ -30,7 +30,16 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.WITCH_CAULDRON);
                         output.accept(ModItems.WONDROUS_FLASK);
                         output.accept(ModItems.SEA_BLESSED_GOURD);
+
+                        output.accept(ModItems.IRON_AMETHYST);
+                        output.accept(ModItems.GOLD_AMETHYST);
+                        output.accept(ModItems.DIAMOND_AMETHYST);
+                        output.accept(ModItems.NETHERITE_AMETHYST);
+
                         output.accept(ModItems.MAGIC_RUNE_A);
+                        output.accept(ModItems.MAGIC_RUNE_B);
+                        output.accept(ModItems.MAGIC_RUNE_C);
+                        output.accept(ModItems.GOLDEN_SEED);
                     })
                     .build());
 

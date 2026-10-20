@@ -39,8 +39,8 @@ import java.util.Objects;
 
 public class SeaBlessedGourdItem extends Item implements FluidCapacityProvider {
     public static final int CAPACITY = 2500;
-    public static final int DISTILL_COST = 4;
-    public static final int DISTILL_TIME = 200;
+    public static final int DISTILL_COST = 1;
+    public static final int DISTILL_TIME = 12000;
 
     public SeaBlessedGourdItem(Properties properties) {
         super(properties);

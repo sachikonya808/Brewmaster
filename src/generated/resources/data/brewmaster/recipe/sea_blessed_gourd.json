@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:ominous_bottle"
+    },
+    "B": {
+      "type": "neoforge:components",
+      "components": {
+        "brewmaster:flask_upgrade": {
+          "tier": 3
+        }
+      },
+      "items": "brewmaster:wondrous_flask"
+    },
+    "C": {
+      "item": "minecraft:heart_of_the_sea"
+    },
+    "D": {
+      "item": "minecraft:pumpkin"
+    }
+  },
+  "pattern": [
+    "BA ",
+    "CD "
+  ],
+  "result": {
+    "count": 1,
+    "id": "brewmaster:sea_blessed_gourd"
+  }
+}

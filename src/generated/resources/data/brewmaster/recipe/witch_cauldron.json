@@ -7,10 +7,13 @@
     },
     "B": {
       "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "minecraft:stick"
     }
   },
   "pattern": [
-    "B B",
+    "BCB",
     "BAB",
     "BBB"
   ],

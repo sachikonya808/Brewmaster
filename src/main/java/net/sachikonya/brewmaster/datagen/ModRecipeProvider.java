@@ -13,9 +13,13 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
+import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.sachikonya.brewmaster.block.ModBlocks;
 import net.sachikonya.brewmaster.effect.ModEffects;
+import net.sachikonya.brewmaster.item.FlaskTier;
+import net.sachikonya.brewmaster.item.FlaskUpgradeData;
 import net.sachikonya.brewmaster.item.ModItems;
+import net.sachikonya.brewmaster.registry.ModDataComponents;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -29,9 +33,10 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     protected void buildRecipes(RecipeOutput recipeOutput) {
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModBlocks.WITCH_CAULDRON.get())
-                .pattern("B B")
+                .pattern("BCB")
                 .pattern("BAB")
                 .pattern("BBB")
+                .define('C', Items.STICK.asItem())
                 .define('B', Items.IRON_INGOT.asItem())
                 .define('A', Items.AMETHYST_SHARD.asItem())
                 .unlockedBy("has_iron", has(Items.IRON_INGOT))
@@ -46,8 +51,64 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_glass_bottle", has(Items.GLASS_BOTTLE))
                 .save(recipeOutput);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModItems.SEA_BLESSED_GOURD.get())
+                .pattern("BA ")
+                .pattern("CD ")
+                .define('A', Items.OMINOUS_BOTTLE.asItem())
+                .define('B', DataComponentIngredient.of(
+                        false,
+                        ModDataComponents.FLASK_UPGRADE.get(),
+                        new FlaskUpgradeData(FlaskTier.DIAMOND.ordinal()),
+                        ModItems.WONDROUS_FLASK.get()))
+                .define('C', Items.HEART_OF_THE_SEA.asItem())
+                .define('D', Items.PUMPKIN.asItem())
+                .unlockedBy("has_wondrous_flask", has(ModItems.WONDROUS_FLASK.get()))
+                .save(recipeOutput);
+
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModItems.IRON_AMETHYST.get())
+                .pattern("ABA")
+                .pattern("ACA")
+                .pattern("AAA")
+                .define('A', Items.IRON_INGOT.asItem())
+                .define('B', ModItems.MAGIC_RUNE_A.get())
+                .define('C', Items.AMETHYST_SHARD.asItem())
+                .unlockedBy("has_wondrous_flask", has(ModItems.WONDROUS_FLASK.get()))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModItems.GOLD_AMETHYST.get())
+                .pattern("ABA")
+                .pattern("ACA")
+                .pattern("AAA")
+                .define('A', Items.GOLD_INGOT.asItem())
+                .define('B', ModItems.MAGIC_RUNE_B.get())
+                .define('C', Items.AMETHYST_SHARD.asItem())
+                .unlockedBy("has_wondrous_flask", has(ModItems.WONDROUS_FLASK.get()))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModItems.DIAMOND_AMETHYST.get())
+                .pattern("ABA")
+                .pattern("ACA")
+                .pattern("AAA")
+                .define('A', Items.DIAMOND.asItem())
+                .define('B', ModItems.MAGIC_RUNE_C.get())
+                .define('C', Items.AMETHYST_SHARD.asItem())
+                .unlockedBy("has_wondrous_flask", has(ModItems.WONDROUS_FLASK.get()))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, ModItems.NETHERITE_AMETHYST.get())
+                .pattern("A  ")
+                .pattern("B  ")
+                .define('A', Items.NETHERITE_INGOT.asItem())
+                .define('B', Items.AMETHYST_SHARD.asItem())
+                .unlockedBy("has_wondrous_flask", has(ModItems.WONDROUS_FLASK.get()))
+                .save(recipeOutput);
 
         //Datagen for Brewing Recipes
+        BrewingRecipeBuilder.brewingRecipeBuilder(Items.HONEY_BOTTLE)
+                .effect(MobEffects.SATURATION, 0, 1800)
+                .save(recipeOutput, "honey_bottle");
+
         BrewingRecipeBuilder.brewingRecipeBuilder(Items.GOLD_BLOCK)
                 .effect(ModEffects.LUCKY_POTION, 0, 0)
                 .save(recipeOutput, "gold_block");

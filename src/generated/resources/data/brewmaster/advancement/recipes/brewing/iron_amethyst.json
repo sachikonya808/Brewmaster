@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brewmaster:iron_amethyst"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_wondrous_flask": {
+      "conditions": {
+        "items": [
+          {
+            "items": "brewmaster:wondrous_flask"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_wondrous_flask"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brewmaster:iron_amethyst"
+    ]
+  }
+}

@@ -9,10 +9,19 @@
   "brewmaster.configuration.magicNumberIntroduction": "Magic Number Text",
   "brewmaster.configuration.magicNumber": "Magic Number",
 
-  "block.brewmaster.witch_cauldron": "Witch's Cauldron",
-  "item.brewmaster.wondrous_flask": "Wondrous Flask",
-  "item.brewmaster.mixed_potion": "Mixed Potion",
   "fluid_type.brewmaster.potion": "Mixed Potion",
+  "block.brewmaster.witch_cauldron": "Witch's Cauldron",
+
+  "item.brewmaster.wondrous_flask": "Wondrous Flask",
+  "item.brewmaster.sea_blessed_gourd": "Sea Blessed Gourd",
+  "item.brewmaster.magic_rune_a": "Magic Rune A",
+  "item.brewmaster.magic_rune_b": "Magic Rune B",
+  "item.brewmaster.magic_rune_c": "Magic Rune C",
+  "item.brewmaster.iron_amethyst": "Iron Infused Amethyst Shard",
+  "item.brewmaster.gold_amethyst": "Gold Infused Amethyst Shard",
+  "item.brewmaster.diamond_amethyst": "Diamond Infused Amethyst Shard",
+  "item.brewmaster.netherite_amethyst": "Netherite Infused Amethyst Shard",
+  "item.brewmaster.golden_seed": "Golden Seed",
 
   "jei.brewmaster.brewing_recipe_type": "Witch Cauldron Brewing",
   "jei.brewmaster.flask_upgrade_type": "Wondrous Flask Upgrade",

@@ -420,8 +420,21 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
         PotionMixture updated = BrewingRecipeLookup.applyRecipe(mixture,recipe.get().value());
         setPotionMixture(updated);
 
+        //Get the container (bucket/glass bottle/etc.) of the ingredient
+        ItemStack leftoverContainer = ingredientStack.hasCraftingRemainingItem() ? ingredientStack.getCraftingRemainingItem() : ItemStack.EMPTY;
+
         itemHandler.extractItem(INGREDIENT_SLOT, 1, false);
         ingredientsUsed++;
+
+        //Pop it into the world
+        if(!leftoverContainer.isEmpty() && level != null) {
+            if(ingredientStack.isEmpty()) {
+                itemHandler.setStackInSlot(INGREDIENT_SLOT, leftoverContainer);
+            } else {
+                Block.popResource(level, worldPosition, leftoverContainer);
+            }
+        }
+
         setChanged();
     }
 

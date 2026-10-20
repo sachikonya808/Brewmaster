@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "B": {
+      "item": "minecraft:amethyst_shard"
+    }
+  },
+  "pattern": [
+    "A  ",
+    "B  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "brewmaster:netherite_amethyst"
+  }
+}

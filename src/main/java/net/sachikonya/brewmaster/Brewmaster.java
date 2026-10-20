@@ -44,12 +44,6 @@ public class Brewmaster {
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    /*
-    // Creates a new food item with the id "brewmaster:example_id", nutrition 1 and saturation 2
-    public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem("example_item", new Item.Properties().food(new FoodProperties.Builder()
-            .alwaysEdible().nutrition(1).saturationModifier(2f).build()));
-     */
-
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public Brewmaster(IEventBus modEventBus, ModContainer modContainer) {
@@ -101,7 +95,6 @@ public class Brewmaster {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
     }
 
     @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)

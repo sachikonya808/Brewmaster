@@ -1,6 +1,6 @@
 {
   "type": "brewmaster:flask_upgrade",
-  "template": { "item": "brewmaster:magic_rune_a" },
-  "addition": { "item": "minecraft:netherite_ingot" },
+  "template": { "item": "minecraft:netherite_upgrade_smithing_template" },
+  "addition": { "item": "brewmaster:netherite_amethyst" },
   "tier": 4
 }

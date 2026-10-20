@@ -1,6 +1,6 @@
 {
   "type": "brewmaster:flask_upgrade",
-  "template": { "item": "brewmaster:magic_rune_a" },
-  "addition": { "item": "minecraft:gold_ingot" },
+  "template": { "item": "brewmaster:golden_seed" },
+  "addition": { "item": "brewmaster:gold_amethyst" },
   "tier": 2
 }

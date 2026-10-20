@@ -29,7 +29,7 @@ public class FlaskUpgradeRecipeCategory implements IRecipeCategory<FlaskUpgradeR
     private final IDrawable arrow;
 
     public FlaskUpgradeRecipeCategory(IGuiHelper guiHelper) {
-        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModItems.MAGIC_RUNE_A.get()));
+        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModItems.GOLDEN_SEED.get()));
         this.arrow = guiHelper.getRecipeArrow();
     }
 

@@ -15,6 +15,15 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         //Add items here
         basicItem(ModItems.SEA_BLESSED_GOURD.get());
+
+        basicItem(ModItems.IRON_AMETHYST.get());
+        basicItem(ModItems.GOLD_AMETHYST.get());
+        basicItem(ModItems.DIAMOND_AMETHYST.get());
+        basicItem(ModItems.NETHERITE_AMETHYST.get());
+
         basicItem(ModItems.MAGIC_RUNE_A.get());
+        basicItem(ModItems.MAGIC_RUNE_B.get());
+        basicItem(ModItems.MAGIC_RUNE_C.get());
+        basicItem(ModItems.GOLDEN_SEED.get());
     }
 }
