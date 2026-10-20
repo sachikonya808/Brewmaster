@@ -2,7 +2,7 @@
   "type": "brewmaster:witch_cauldron_brewing",
   "effects": [
     {
-      "amplifier": 0,
+      "amplifier": 5,
       "duration": 1800,
       "effect": "minecraft:saturation"
     }

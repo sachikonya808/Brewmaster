@@ -170,15 +170,8 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
+    WitchCauldronState state = WitchCauldronState.WAITING;
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {
-        if(getPotionMixture() != PotionMixture.EMPTY) {
-            syncIngredientCount();
-            setChanged();
-        } else {
-            ingredientsUsed = 0;
-            setChanged();
-        }
-
         if(!isHeated()) {
             resetProgress();
             updateBrewingState(level, blockPos, blockState, false);
@@ -195,36 +188,63 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
             setChanged(level, blockPos, blockState);
         }
 
-        boolean brewingBase = input.is(Items.NETHER_WART) && hasWater();
-        boolean addingIngredient = hasRecipe() && hasPotionFluid();
-        boolean bottling = (output.is(Items.GLASS_BOTTLE) || output.is(ModItems.WONDROUS_FLASK)) && hasPotionFluid();
-        boolean lockedFlask = (output.is(ModItems.WONDROUS_FLASK.get()) && !canFillFlask(output));
+        switch (state) {
+            case WAITING -> {
+                syncIngredientCount();
+                boolean brewingBase = input.is(Items.NETHER_WART) && hasWater();
+                boolean addingIngredient = hasRecipe() && hasPotionFluid();
+                boolean bottling = hasPotionFluid() && (output.is(Items.GLASS_BOTTLE) || output.is(ModItems.WONDROUS_FLASK));
 
-        updateBrewingState(level, blockPos, blockState, (addingIngredient || brewingBase || bottling));
+                updateBrewingState(level, blockPos, blockState, (addingIngredient || brewingBase || bottling));
 
-        if(addingIngredient || brewingBase) {
-            increaseCraftingProgress();
-            setChanged(level, blockPos, blockState);
-            if(hasCraftingFinished()){
-                if(hasRecipe())
-                    processIngredient();
-                if(input.is(Items.NETHER_WART))
+                if(addingIngredient) {
+                    state = WitchCauldronState.BREWING;
+                }
+                if(brewingBase) {
+                    state = WitchCauldronState.BREWING_BASE;
+                }
+                if(bottling) {
+                    state = WitchCauldronState.BOTTLING;
+                }
+
+                resetProgress();
+            }
+            case BREWING_BASE -> {
+                if(!(input.is(Items.NETHER_WART) && hasWater())) { state = WitchCauldronState.WAITING; }
+                increaseCraftingProgress();
+                setChanged(level, blockPos, blockState);
+
+                if(hasCraftingFinished()) {
                     convertWatertoPotion();
 
-                level.playSound(null,blockPos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1f, 1f);
-                resetProgress();
+                    level.playSound(null,blockPos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1f, 1f);
+                    resetProgress();
+                }
             }
-        } else if(bottling) {
-            if(lockedFlask) { return; }
-            increaseBottlingProgress();
-            setChanged(level, blockPos, blockState);
-            if(hasBottlingFinished()) {
-                bottlePotion();
-                level.playSound(null,blockPos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1f, 1f);
-                resetProgress();
+            case BREWING -> {
+                if(!(hasRecipe() && hasPotionFluid())) { state = WitchCauldronState.WAITING; }
+                increaseCraftingProgress();
+                setChanged(level, blockPos, blockState);
+
+                if(hasCraftingFinished()) {
+                    processIngredient();
+
+                    level.playSound(null,blockPos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1f, 1f);
+                    resetProgress();
+                }
             }
-        } else {
-            resetProgress();
+            case BOTTLING -> {
+                if((output.isEmpty()) || !hasPotionFluid()) { state = WitchCauldronState.WAITING; }
+
+                increaseBottlingProgress();
+                setChanged(level, blockPos, blockState);
+
+                if(hasBottlingFinished()) {
+                    bottlePotion();
+                    level.playSound(null,blockPos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1f, 1f);
+                    resetProgress();
+                }
+            }
         }
     }
 
@@ -273,7 +293,13 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
 
     public void syncIngredientCount() {
         PotionMixture mixture = getPotionMixture();
-        ingredientsUsed = mixture.ingredientsAdded();
+        if(mixture != PotionMixture.EMPTY) {
+            ingredientsUsed = mixture.ingredientsAdded();
+            setChanged();
+        } else {
+            ingredientsUsed = 0;
+            setChanged();
+        }
     }
 
     public int getFinalMaxIngredients() {

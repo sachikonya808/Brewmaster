@@ -10,8 +10,9 @@
   "brewmaster.configuration.magicNumber": "Magic Number",
 
   "fluid_type.brewmaster.potion": "Mixed Potion",
-  "block.brewmaster.witch_cauldron": "Witch's Cauldron",
+  "block.brewmaster.witch_cauldron": "Witch Cauldron",
 
+  "item.brewmaster.mixed_potion": "Mixed Potion",
   "item.brewmaster.wondrous_flask": "Wondrous Flask",
   "item.brewmaster.sea_blessed_gourd": "Sea Blessed Gourd",
   "item.brewmaster.magic_rune_a": "Magic Rune A",
@@ -39,7 +40,10 @@
   "effect.brewmaster.warden_curse": "Warden's Curse",
   "effect.brewmaster.small": "Small",
   "effect.brewmaster.big": "Big",
+  "effect.brewmaster.memory_loss": "Memory Loss",
   "effect.brewmaster.lucky_potion": "Lucky Potion",
+  "effect.brewmaster.high_cholesterol": "High Cholesterol",
+  "effect.brewmaster.cacti_dream": "Cacti Dream",
 
   "tooltip.brewmaster.empty_fluid": "Empty",
   "tooltip.brewmaster.amount": "Amount: %s / %s mB",
@@ -54,6 +58,7 @@
   "death.attack.brewmaster.heart_attack": "%1$s died from a heart attack",
   "death.attack.brewmaster.heart_attack.player": "%1$s died from a heart attack thanks to %1$s",
 
+
   "potion.potency.6": "VII",
   "potion.potency.7": "VIII",
   "potion.potency.8": "IX",
@@ -62,5 +67,30 @@
   "potion.potency.11": "XII",
   "potion.potency.12": "XIII",
   "potion.potency.13": "XIV",
-  "potion.potency.14": "XV"
+  "potion.potency.14": "XV",
+  "potion.potency.15": "XVI",
+  "potion.potency.16": "XVII",
+  "potion.potency.17": "XVIII",
+  "potion.potency.18": "XIX",
+  "potion.potency.19": "XX",
+  "potion.potency.20": "XXI",
+  "potion.potency.21": "XXII",
+  "potion.potency.22": "XXIII",
+  "potion.potency.23": "XXIV",
+  "potion.potency.24": "XXV",
+  "potion.potency.25": "XXVI",
+  "potion.potency.26": "XXVII",
+  "potion.potency.27": "XXVIII",
+  "potion.potency.28": "XXIX",
+  "potion.potency.29": "XXX",
+  "potion.potency.30": "XXXI",
+  "potion.potency.31": "XXXII",
+  "potion.potency.32": "XXXIII",
+  "potion.potency.33": "XXXIV",
+  "potion.potency.34": "XXXV",
+  "potion.potency.35": "XXXVI",
+  "potion.potency.36": "XXXVII",
+  "potion.potency.37": "XXXVIII",
+  "potion.potency.38": "XXXIX",
+  "potion.potency.39": "XXXX"
 }

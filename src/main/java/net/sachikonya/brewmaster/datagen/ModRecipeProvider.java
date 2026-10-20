@@ -105,8 +105,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(recipeOutput);
 
         //Datagen for Brewing Recipes
+        BrewingRecipeBuilder.brewingRecipeBuilder(Items.CAKE)
+                .effect(ModEffects.HIGH_CHOLESTEROL, 0, 1800)
+                .save(recipeOutput, "cake");
+
+        BrewingRecipeBuilder.brewingRecipeBuilder(Items.CHORUS_FRUIT)
+                .effect(ModEffects.MEMORY_LOSS, 0, 1800)
+                .save(recipeOutput, "chorus_fruit");
+
         BrewingRecipeBuilder.brewingRecipeBuilder(Items.HONEY_BOTTLE)
-                .effect(MobEffects.SATURATION, 0, 1800)
+                .effect(MobEffects.SATURATION, 5, 1800)
                 .save(recipeOutput, "honey_bottle");
 
         BrewingRecipeBuilder.brewingRecipeBuilder(Items.GOLD_BLOCK)

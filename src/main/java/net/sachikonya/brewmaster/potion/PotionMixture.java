@@ -61,7 +61,7 @@ public record PotionMixture(List<PotionEffectData> effectDataList, double durati
                             i,
                             new PotionEffectData(
                                     existing.effect(),
-                                    existing.amplifier() + effectAdded.amplifier(),
+                                    existing.amplifier() + (effectAdded.amplifier()+1),
                                     existing.duration()
                             ));
                 }
