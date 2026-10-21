@@ -91,6 +91,7 @@ public class BrewingRecipeCategory implements IRecipeCategory<RecipeHolder<Brewi
             } else {
                 tooltip.addAll(new PotionMixture(brewingRecipe.effectDataList(), 1.0, 1).getTooltipLines());
             }
+            tooltip.add(Component.translatable("jei.brewmaster.weight", brewingRecipe.ingredientWeight()).withStyle(ChatFormatting.DARK_GREEN));
             Component catalyst = Component.translatable("jei.brewmaster.awkward_potion_required",Component.translatable("item.minecraft.potion.effect.awkward")).withStyle(ChatFormatting.DARK_GRAY).withStyle(ChatFormatting.ITALIC);
             tooltip.add(catalyst);
         }

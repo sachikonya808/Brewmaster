@@ -17,6 +17,7 @@ public class BrewingRecipeBuilder {
     private final Ingredient ingredient;
     private final List<PotionEffectData> effects = new ArrayList<>();
     private float durationAddition = 0f;
+    private int ingredientWeight = 1;
 
     private BrewingRecipeBuilder(Ingredient ingredient) { this.ingredient = ingredient; }
 
@@ -34,8 +35,13 @@ public class BrewingRecipeBuilder {
         return this;
     }
 
+    public BrewingRecipeBuilder ingredientWeight(int weight) {
+        this.ingredientWeight = weight;
+        return this;
+    }
+
     public void save(RecipeOutput out, String name) {
         out.accept(ResourceLocation.fromNamespaceAndPath(Brewmaster.MODID, "brewing/" + name),
-                new BrewingRecipe(ingredient, List.copyOf(effects), durationAddition), null);
+                new BrewingRecipe(ingredient, List.copyOf(effects), durationAddition, ingredientWeight), null);
     }
 }

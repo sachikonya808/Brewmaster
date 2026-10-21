@@ -30,6 +30,7 @@
   "jei.brewmaster.brewing_recipe_type": "Witch Cauldron Brewing",
   "jei.brewmaster.flask_upgrade_type": "Wondrous Flask Upgrade",
   "jei.brewmaster.duration_bonus": "Duration Multiplier: %s",
+  "jei.brewmaster.weight": "Ingredient Weight: %s",
   "jei.brewmaster.awkward_potion_required": "Requires %s!",
   "jei.brewmaster.info.nether_wart": "Test!",
 

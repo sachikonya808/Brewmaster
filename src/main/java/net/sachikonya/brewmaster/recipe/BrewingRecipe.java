@@ -18,7 +18,7 @@ import net.sachikonya.brewmaster.potion.PotionEffectData;
 import java.util.List;
 
 public record BrewingRecipe(
-        Ingredient inputItem, List<PotionEffectData> effectDataList, double durationMultiplierAddition)
+        Ingredient inputItem, List<PotionEffectData> effectDataList, double durationMultiplierAddition, int ingredientWeight)
 implements Recipe<BrewingRecipeInput> {
     @Override
     public boolean matches(BrewingRecipeInput brewingRecipeInput, Level level) {
@@ -71,16 +71,26 @@ implements Recipe<BrewingRecipeInput> {
                         .forGetter(BrewingRecipe::effectDataList),
                 Codec.DOUBLE
                         .optionalFieldOf("duration_multiplier_addition",0.0)
-                        .forGetter(BrewingRecipe::durationMultiplierAddition)
+                        .forGetter(BrewingRecipe::durationMultiplierAddition),
+                Codec.INT
+                        .optionalFieldOf("ingredient_weight", 1)
+                        .forGetter(BrewingRecipe::ingredientWeight)
         ).apply(inst, BrewingRecipe::new));
 
         public static final StreamCodec<RegistryFriendlyByteBuf, BrewingRecipe> STREAM_CODEC =
                 StreamCodec.composite(
-                        Ingredient.CONTENTS_STREAM_CODEC, BrewingRecipe::inputItem,
+                        Ingredient.CONTENTS_STREAM_CODEC,
+                        BrewingRecipe::inputItem,
+
                         PotionEffectData.STREAM_CODEC.apply(ByteBufCodecs.list()),
                         BrewingRecipe::effectDataList,
+
                         ByteBufCodecs.DOUBLE,
                         BrewingRecipe::durationMultiplierAddition,
+
+                        ByteBufCodecs.VAR_INT,
+                        BrewingRecipe::ingredientWeight,
+
                         BrewingRecipe::new
                 );
 

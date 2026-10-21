@@ -197,6 +197,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         BrewingRecipeBuilder.brewingRecipeBuilder(Items.IRON_BLOCK)
                 .effect(MobEffects.DAMAGE_RESISTANCE, 0, 1800)
+                .ingredientWeight(2)
                 .save(recipeOutput, "iron_block");
 
         BrewingRecipeBuilder.brewingRecipeBuilder(Items.LIGHTNING_ROD)

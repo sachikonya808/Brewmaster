@@ -9,5 +9,6 @@
   ],
   "ingredient": {
     "item": "minecraft:iron_block"
-  }
+  },
+  "ingredient_weight": 2
 }

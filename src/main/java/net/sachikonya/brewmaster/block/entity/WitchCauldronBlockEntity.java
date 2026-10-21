@@ -200,6 +200,7 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
 
     WitchCauldronState state = WitchCauldronState.WAITING;
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {
+        syncIngredientCount();
         if(!isHeated()) {
             resetProgress();
             updateBrewingState(level, blockPos, blockState, false);
@@ -218,7 +219,6 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
 
         switch (state) {
             case WAITING -> {
-                syncIngredientCount();
                 boolean brewingBase = input.is(Items.NETHER_WART) && hasWater();
                 boolean addingIngredient = hasRecipe() && hasPotionFluid();
                 boolean bottling = hasPotionFluid() && (output.is(Items.GLASS_BOTTLE));
@@ -502,11 +502,12 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
         PotionMixture updated = BrewingRecipeLookup.applyRecipe(mixture,recipe.get().value());
         setPotionMixture(updated);
 
+        syncIngredientCount();
+
         //Get the container (bucket/glass bottle/etc.) of the ingredient
         ItemStack leftoverContainer = ingredientStack.hasCraftingRemainingItem() ? ingredientStack.getCraftingRemainingItem() : ItemStack.EMPTY;
 
         itemHandler.extractItem(INGREDIENT_SLOT, 1, false);
-        ingredientsUsed++;
 
         //Pop it into the world
         if(!leftoverContainer.isEmpty() && level != null) {
