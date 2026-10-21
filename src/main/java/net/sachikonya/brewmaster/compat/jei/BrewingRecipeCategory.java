@@ -42,7 +42,7 @@ public class BrewingRecipeCategory implements IRecipeCategory<RecipeHolder<Brewi
 
     private final IDrawable background;
     private final IDrawable icon;
-    private IDrawableAnimated arrow;
+    private final IDrawableAnimated arrow;
 
     public BrewingRecipeCategory(IGuiHelper helper) {
         this.background = helper.createDrawable(TEXTURE, 0, 0, WIDTH, HEIGHT);
