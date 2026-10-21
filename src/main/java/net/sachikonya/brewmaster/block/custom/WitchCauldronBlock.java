@@ -2,6 +2,7 @@ package net.sachikonya.brewmaster.block.custom;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -15,6 +16,7 @@ import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -25,13 +27,14 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.sachikonya.brewmaster.block.entity.ModBlockEntities;
 import net.sachikonya.brewmaster.block.entity.WitchCauldronBlockEntity;
@@ -44,7 +47,7 @@ public class WitchCauldronBlock extends BaseEntityBlock{
 
     public WitchCauldronBlock(Properties properties) {
         super(properties);
-        registerDefaultState(stateDefinition.any().setValue(HAS_OR_IS_BREWING, false));
+        registerDefaultState(stateDefinition.any().setValue(HAS_OR_IS_BREWING, false).setValue(FACING, Direction.NORTH));
     }
 
     @Override
@@ -109,7 +112,7 @@ public class WitchCauldronBlock extends BaseEntityBlock{
         if(!pLevel.isClientSide()){
             BlockEntity entity = pLevel.getBlockEntity(pPos);
             if(entity instanceof WitchCauldronBlockEntity witchCauldronBlockEntity){
-                ((ServerPlayer) pPlayer).openMenu(new SimpleMenuProvider(witchCauldronBlockEntity, Component.literal("Witch's Cauldron")), pPos);
+                ((ServerPlayer) pPlayer).openMenu(new SimpleMenuProvider(witchCauldronBlockEntity, Component.translatable("block.brewmaster.witch_cauldron")), pPos);
             } else {
                 throw new IllegalStateException("Out Container provider is missing!");
             }
@@ -132,9 +135,17 @@ public class WitchCauldronBlock extends BaseEntityBlock{
     public static final BooleanProperty HAS_OR_IS_BREWING = BooleanProperty.create("has_or_is_brewing");
     private static final double Y_LEVEL = 0.75;
 
+    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+
+    @Override
+    public @Nullable BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+    }
+
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(HAS_OR_IS_BREWING);
+        builder.add(FACING);
     }
 
     @Override
@@ -162,4 +173,6 @@ public class WitchCauldronBlock extends BaseEntityBlock{
                     SoundEvents.BUBBLE_COLUMN_UPWARDS_AMBIENT, SoundSource.BLOCKS, 0.6f, 1.0f, false);
         }
     }
+
+
 }

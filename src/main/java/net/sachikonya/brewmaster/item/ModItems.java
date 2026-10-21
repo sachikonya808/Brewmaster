@@ -2,6 +2,7 @@ package net.sachikonya.brewmaster.item;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.sachikonya.brewmaster.Brewmaster;
@@ -36,8 +37,21 @@ public class ModItems {
     public static final DeferredItem<Item> MAGIC_RUNE_C = ITEMS.registerSimpleItem("magic_rune_c",
             new Item.Properties().component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true));
 
-    public static final DeferredItem<Item> GOLDEN_SEED = ITEMS.registerSimpleItem("golden_seed");
+    public static final DeferredItem<Item> GOLDEN_SEED = ITEMS.registerSimpleItem("golden_seed",
+            new Item.Properties().component(DataComponents.RARITY, Rarity.UNCOMMON));
 
+    public static final DeferredItem<Item> OVERWORLD_UPGRADE_BOOK = ITEMS.registerSimpleItem("overworld_upgrade_book",
+            new Item.Properties()
+                    .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .component(DataComponents.RARITY, Rarity.UNCOMMON));
+    public static final DeferredItem<Item> NETHER_UPGRADE_BOOK = ITEMS.registerSimpleItem("nether_upgrade_book",
+            new Item.Properties()
+                    .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .component(DataComponents.RARITY, Rarity.RARE));
+    public static final DeferredItem<Item> END_UPGRADE_BOOK = ITEMS.registerSimpleItem("end_upgrade_book",
+            new Item.Properties()
+                    .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
+                    .component(DataComponents.RARITY, Rarity.EPIC));
 
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);

@@ -1,12 +1,15 @@
 package net.sachikonya.brewmaster;
 
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.sachikonya.brewmaster.block.ModBlocks;
 import net.sachikonya.brewmaster.block.entity.ModBlockEntities;
 import net.sachikonya.brewmaster.effect.ModEffects;
@@ -15,6 +18,7 @@ import net.sachikonya.brewmaster.entity.client.AnvilRenderer;
 import net.sachikonya.brewmaster.fluid.ModFluids;
 import net.sachikonya.brewmaster.item.ModCreativeModeTabs;
 import net.sachikonya.brewmaster.item.ModItems;
+import net.sachikonya.brewmaster.loot.ModLoot;
 import net.sachikonya.brewmaster.recipe.ExtraBrewingStandRecipes;
 import net.sachikonya.brewmaster.recipe.ModRecipes;
 import net.sachikonya.brewmaster.registry.ModDataComponents;
@@ -72,7 +76,7 @@ public class Brewmaster {
         ModEntities.register(modEventBus);
         ModEffects.register(modEventBus);
         NeoForge.EVENT_BUS.addListener(ExtraBrewingStandRecipes::register);
-
+        ModLoot.register(modEventBus);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -96,6 +100,17 @@ public class Brewmaster {
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
     }
+
+    /*
+    @SubscribeEvent
+    public void onIncomingDamage(LivingDamageEvent.Pre event) {
+        MobEffectInstance effectInstance = event.getEntity().getEffect(ModEffects.BRITTLE);
+        if(effectInstance == null) { return; }
+
+        float multiplier = 1.0f + (0.2f * (effectInstance.getAmplifier() + 1));
+        event.setNewDamage(event.getNewDamage() * multiplier);
+    }
+    */
 
     @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
     public static class ClientModEvents {

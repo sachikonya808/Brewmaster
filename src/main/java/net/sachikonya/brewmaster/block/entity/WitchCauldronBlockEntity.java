@@ -26,13 +26,17 @@ import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import net.sachikonya.brewmaster.block.WitchCauldronState;
 import net.sachikonya.brewmaster.block.custom.WitchCauldronBlock;
 import net.sachikonya.brewmaster.fluid.ModFluids;
+import net.sachikonya.brewmaster.fluid.PotionFlaskFluidHandler;
 import net.sachikonya.brewmaster.item.ModItems;
+import net.sachikonya.brewmaster.item.ModTags;
 import net.sachikonya.brewmaster.item.custom.WondrousFlaskItem;
 import net.sachikonya.brewmaster.potion.PotionItemFactory;
 import net.sachikonya.brewmaster.potion.PotionMixture;
@@ -47,7 +51,8 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
     // -----------------------------------------------------------------------------------------------------------------
     // Init / Overrides + Core Functionality
 
-    private static final int SLOT_COUNT = 3; //<---- How many slots should the block have!
+    public static final int SLOT_COUNT = 3; //<---- How many slots should the block have!
+    public static final int UPGRADE_COUNT = 3;
 
     public final ItemStackHandler itemHandler = new ItemStackHandler(SLOT_COUNT) {
         @Override
@@ -58,6 +63,17 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
             }
         }
     };
+    public final ItemStackHandler upgradeHandler = new ItemStackHandler(UPGRADE_COUNT) {
+        @Override
+        protected void onContentsChanged(int slot) {
+            recalcUpgrades();
+            setChanged();
+        }
+        @Override
+        public boolean isItemValid(int slot, ItemStack stack) {
+            return stack.is(ModTags.Items.CAULDRON_UPGRADES);
+        }
+    };
 
     public static final int INGREDIENT_SLOT = 0;
     public static final int BOTTLE_SLOT = 1;
@@ -66,7 +82,12 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
     private static final int FUEL_USES = 20;
     public static final int FUEL_BONUS = 2;
 
-    public static final int MAX_BASE_INGREDIENTS = 5;
+
+    public static final int UPGRADE_SLOT_1 = 0;
+    public static final int UPGRADE_SLOT_2 = 1;
+    public static final int UPGRADE_SLOT_3 = 2;
+    public static final int MAX_BASE_INGREDIENTS = 2;
+    public static final int UPGRADE_BONUS_PER_BOOK = 2;
     private int ingredientsUpgrade = 0;
     private int ingredientsUsed = 0;
 
@@ -125,11 +146,15 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
 
     public void drops() {
         SimpleContainer inventory = new SimpleContainer(SLOT_COUNT);
+        SimpleContainer upgrades = new SimpleContainer(UPGRADE_COUNT);
         for (int i = 0; i < SLOT_COUNT; i++) {
             inventory.setItem(i, itemHandler.getStackInSlot(i));
         }
-
+        for (int i = 0; i < UPGRADE_COUNT; i++) {
+            upgrades.setItem(i, upgradeHandler.getStackInSlot(i));
+        }
         Containers.dropContents(this.level, this.worldPosition, inventory);
+        Containers.dropContents(this.level, this.worldPosition, upgrades);
     }
 
     @Override
@@ -142,6 +167,7 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
         pTag.putInt("witch_cauldron.max_bottling_progress",bottlingMaxProgress);
         pTag.put("Tank", tank.writeToNBT(pRegistries, new CompoundTag()));
         pTag.putInt("witch_cauldron.fuel", fuel);
+        pTag.put("upgrades", upgradeHandler.serializeNBT(pRegistries));
 
         super.saveAdditional(pTag, pRegistries);
     }
@@ -158,6 +184,8 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
         bottlingProgress = pTag.getInt("witch_cauldron.bottling_progress");
         bottlingMaxProgress = pTag.getInt("witch_cauldron.max_bottling_progress");
         fuel = pTag.getInt("witch_cauldron.fuel");
+        upgradeHandler.deserializeNBT(pRegistries, pTag.getCompound("upgrades"));
+        recalcUpgrades();
     }
 
     @Override
@@ -193,7 +221,8 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
                 syncIngredientCount();
                 boolean brewingBase = input.is(Items.NETHER_WART) && hasWater();
                 boolean addingIngredient = hasRecipe() && hasPotionFluid();
-                boolean bottling = hasPotionFluid() && (output.is(Items.GLASS_BOTTLE) || output.is(ModItems.WONDROUS_FLASK));
+                boolean bottling = hasPotionFluid() && (output.is(Items.GLASS_BOTTLE));
+                boolean filling = output.is(ModItems.WONDROUS_FLASK) && canFillFlask(output);
 
                 updateBrewingState(level, blockPos, blockState, (addingIngredient || brewingBase || bottling));
 
@@ -205,6 +234,9 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
                 }
                 if(bottling) {
                     state = WitchCauldronState.BOTTLING;
+                }
+                if(filling) {
+                    state = WitchCauldronState.FILLING;
                 }
 
                 resetProgress();
@@ -234,13 +266,27 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
                 }
             }
             case BOTTLING -> {
-                if((output.isEmpty()) || !hasPotionFluid()) { state = WitchCauldronState.WAITING; }
+                if(!hasPotionFluid() || !output.is(Items.GLASS_BOTTLE)) { state = WitchCauldronState.WAITING; }
 
                 increaseBottlingProgress();
                 setChanged(level, blockPos, blockState);
 
                 if(hasBottlingFinished()) {
                     bottlePotion();
+
+                    level.playSound(null,blockPos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1f, 1f);
+                    resetProgress();
+                }
+            }
+            case FILLING -> {
+                if(output.isEmpty() || (output.is(ModItems.WONDROUS_FLASK.get()) && !canFillFlask(output))) { state = WitchCauldronState.WAITING; }
+
+                increaseBottlingProgress();
+                setChanged(level, blockPos, blockState);
+
+                if(hasBottlingFinished()) {
+                    bottlePotion();
+
                     level.playSound(null,blockPos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 1f, 1f);
                     resetProgress();
                 }
@@ -300,6 +346,16 @@ public class WitchCauldronBlockEntity extends BlockEntity implements MenuProvide
             ingredientsUsed = 0;
             setChanged();
         }
+    }
+
+    private void recalcUpgrades() {
+        int count = 0;
+        for(int i = 0 ; i < upgradeHandler.getSlots() ; i++) {
+            if(!upgradeHandler.getStackInSlot(i).isEmpty()) {
+                count++;
+            }
+        }
+        ingredientsUpgrade = count * UPGRADE_BONUS_PER_BOOK;
     }
 
     public int getFinalMaxIngredients() {

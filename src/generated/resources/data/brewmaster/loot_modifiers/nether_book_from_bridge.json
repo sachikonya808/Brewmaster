@@ -1,0 +1,17 @@
+{
+  "type": "brewmaster:add_item",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/bastion_bridge"
+    },
+    {
+      "chance": 0.1,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "item": {
+    "count": 1,
+    "id": "brewmaster:nether_upgrade_book"
+  }
+}

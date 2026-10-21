@@ -24,6 +24,7 @@ public class BigSmallEffect extends MobEffect {
 
         double speedModifier;
         double jumpModifier;
+        double interactionRangeModifier = scaleAmount / 2;
         if(Objects.equals(name, "big")) {
             speedModifier = scaleAmount / 4;
             jumpModifier = scaleAmount / 4;
@@ -38,8 +39,8 @@ public class BigSmallEffect extends MobEffect {
         addAttributeModifier(Attributes.MOVEMENT_SPEED, id(name, "speed"), speedModifier, op);
         addAttributeModifier(Attributes.JUMP_STRENGTH, id(name, "jump"), jumpModifier * 0.5, op);
         addAttributeModifier(Attributes.STEP_HEIGHT, id(name, "step"), scaleAmount, op);
-        addAttributeModifier(Attributes.BLOCK_INTERACTION_RANGE, id(name, "block_reach"), scaleAmount, op);
-        addAttributeModifier(Attributes.ENTITY_INTERACTION_RANGE, id(name, "entity_reach"), scaleAmount, op);
+        addAttributeModifier(Attributes.BLOCK_INTERACTION_RANGE, id(name, "block_reach"), interactionRangeModifier, op);
+        addAttributeModifier(Attributes.ENTITY_INTERACTION_RANGE, id(name, "entity_reach"), interactionRangeModifier, op);
     }
 
     private static ResourceLocation id(String effect, String attribute) {

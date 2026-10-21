@@ -3,7 +3,11 @@ package net.sachikonya.brewmaster.screen.custom;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.gui.components.StateSwitchingButton;
+import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -28,6 +32,12 @@ public class WitchCauldronScreen extends AbstractContainerScreen<WitchCauldronMe
             ResourceLocation.fromNamespaceAndPath(Brewmaster.MODID, "textures/gui/bottling_progress.png");
     private static final ResourceLocation FUEL_LENGTH =
             ResourceLocation.withDefaultNamespace("textures/gui/sprites/container/brewing_stand/fuel_length.png");
+    private static final ResourceLocation UPGRADE_SLOTS_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(Brewmaster.MODID, "upgrade_slots");
+
+    private static final ResourceLocation RECIPE_BOOK_NORMAL = ResourceLocation.withDefaultNamespace("recipe_book/button");
+    private static final ResourceLocation RECIPE_BOOK_HIGHLIGHTED = ResourceLocation.withDefaultNamespace("recipe_book/button_highlighted");
+    private static final WidgetSprites RECIPE_BOOk = new WidgetSprites(RECIPE_BOOK_HIGHLIGHTED, RECIPE_BOOK_NORMAL, RECIPE_BOOK_HIGHLIGHTED, RECIPE_BOOK_NORMAL);
 
     public WitchCauldronScreen(WitchCauldronMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -49,10 +59,35 @@ public class WitchCauldronScreen extends AbstractContainerScreen<WitchCauldronMe
 
         guiGraphics.blit(GUI_TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
 
+        if(menu.getCurrentPage() == 1) {
+            guiGraphics.blitSprite(UPGRADE_SLOTS_TEXTURE, x + 176, y + 14, 24, 64);
+        }
+
         renderProgressArrow(guiGraphics, x, y);
         renderBottlingProgressArrow(guiGraphics, x, y);
         renderWaterTiles(guiGraphics, x, y);
         renderRemainingFuel(guiGraphics, x, y);
+    }
+
+    private StateSwitchingButton upgradesButton;
+    @Override
+    protected void init() {
+        super.init();
+        upgradesButton = new StateSwitchingButton(leftPos + 5, topPos + 72, 20, 18, menu.getCurrentPage() == 1) {
+            @Override
+            public void onClick(double mouseX, double mouseY, int button) {
+                minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 0);
+            }
+        };
+
+        upgradesButton.initTextureValues(RECIPE_BOOk);
+        addRenderableWidget(upgradesButton);
+    }
+
+    @Override
+    protected void containerTick() {
+        super.containerTick();
+        upgradesButton.setStateTriggered(menu.getCurrentPage() == 1);
     }
 
     private void renderWaterTiles(GuiGraphics guiGraphics, int x, int y){
@@ -85,28 +120,6 @@ public class WitchCauldronScreen extends AbstractContainerScreen<WitchCauldronMe
     private void renderFluidInsideTankTooltip(GuiGraphics guiGraphics, int pMouseX, int pMouseY) {
         if (isHovering(63, 48, 52, 34, pMouseX, pMouseY)) {
             CauldronTooltipRender.render(guiGraphics, pMouseX, pMouseY, menu.getFluidType(), menu.getBrewAmount(), menu.getPotionMixture(), font);
-            /*
-            List<Component> lines = new ArrayList<>();
-
-            switch (menu.getFluidType()) {
-                case 0 -> lines.add(Component.translatable("tooltip.brewmaster.empty_fluid"));
-                case 1 -> lines.add(Component.translatable("block.minecraft.water"));
-                case 2 -> {
-                    if (menu.getPotionMixture().isPotionEmpty()) {
-                        lines.add(Component.translatable("item.minecraft.potion.effect.awkward"));
-                        lines.add(Component.translatable("effect.none").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.DARK_GRAY));
-                    } else {
-                        lines.add(Component.translatable("item.brewmaster.mixed_potion").withStyle(ChatFormatting.ITALIC));
-                        lines.addAll(menu.getPotionMixture().getTooltipLines());
-                    }
-                }
-                default -> lines.add(Component.literal("!!! Unknown Fluid !!!").withStyle(ChatFormatting.DARK_RED));
-            }
-            lines.add(Component.translatable("tooltip.brewmaster.amount", menu.getBrewAmount(), WitchCauldronBlockEntity.CAPACITY).withStyle(ChatFormatting.GRAY));
-
-            guiGraphics.renderComponentTooltip(font, lines, pMouseX, pMouseY);
-
-             */
         }
     }
 

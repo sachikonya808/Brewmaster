@@ -1,6 +1,5 @@
 package net.sachikonya.brewmaster.datagen;
 
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -9,7 +8,6 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
@@ -105,6 +103,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(recipeOutput);
 
         //Datagen for Brewing Recipes
+        BrewingRecipeBuilder.brewingRecipeBuilder(Items.SUSPICIOUS_STEW)
+                .effect(MobEffects.CONFUSION, 0, 1800)
+                .save(recipeOutput, "suspicious_stew");
+
+        BrewingRecipeBuilder.brewingRecipeBuilder(Items.ROTTEN_FLESH)
+                .effect(MobEffects.HUNGER, 0, 1800)
+                .save(recipeOutput, "rotten_flesh");
+
+        BrewingRecipeBuilder.brewingRecipeBuilder(Items.WITHER_ROSE)
+                .effect(MobEffects.WITHER, 0, 1800)
+                .save(recipeOutput, "wither_rose");
+
         BrewingRecipeBuilder.brewingRecipeBuilder(Items.CAKE)
                 .effect(ModEffects.HIGH_CHOLESTEROL, 0, 1800)
                 .save(recipeOutput, "cake");
@@ -122,7 +132,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(recipeOutput, "gold_block");
 
         BrewingRecipeBuilder.brewingRecipeBuilder(Items.ANVIL)
-                .effect(ModEffects.FALLING_ANVIL_EFFECT, 0, 100)
+                .effect(ModEffects.FALLING_ANVIL, 0, 100)
                 .save(recipeOutput, "anvil");
 
         BrewingRecipeBuilder.brewingRecipeBuilder(Items.BLAZE_POWDER)
@@ -182,7 +192,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(recipeOutput, "golden_carrot");
 
         BrewingRecipeBuilder.brewingRecipeBuilder(Items.GUNPOWDER)
-                .effect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(ModEffects.POWDER_TRAIL_EFFECT.get()), 0, 100)
+                .effect(ModEffects.POWDER_TRAIL, 0, 100)
                 .save(recipeOutput, "gunpowder");
 
         BrewingRecipeBuilder.brewingRecipeBuilder(Items.IRON_BLOCK)
@@ -190,7 +200,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(recipeOutput, "iron_block");
 
         BrewingRecipeBuilder.brewingRecipeBuilder(Items.LIGHTNING_ROD)
-                .effect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(ModEffects.LIGHTNING_ROD_EFFECT.get()), 0, 1800)
+                .effect(ModEffects.LIGHTNING_ROD, 0, 1800)
                 .save(recipeOutput, "lightning_rod");
 
         BrewingRecipeBuilder.brewingRecipeBuilder(Items.MAGMA_CREAM)

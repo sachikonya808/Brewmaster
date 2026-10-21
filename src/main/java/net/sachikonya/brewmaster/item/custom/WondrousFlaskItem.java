@@ -195,6 +195,9 @@ public class WondrousFlaskItem extends Item implements FluidCapacityProvider {
         if(fluidHandler.getFluidInTank(0).isEmpty()) {
             return true;
         }
+        if(fluidHandler.getFluidInTank(0).getAmount() >= PotionFlaskFluidHandler.capacityOf(flask)) {
+            return false;
+        }
 
         return fluidHandler.getFluidInTank(0).is((ModFluids.POTION.get())) && Objects.equals(fluidHandler.getFluidInTank(0).get(ModDataComponents.POTION_MIXTURE), fluid.get(ModDataComponents.POTION_MIXTURE));
     }

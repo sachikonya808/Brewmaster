@@ -14,7 +14,6 @@ public class PowderTrailEffect extends MobEffect {
     protected PowderTrailEffect() { super(MobEffectCategory.HARMFUL, 0x60C953); }
     private int currentTick = 0;
 
-
     @Override
     public boolean applyEffectTick(LivingEntity livingEntity, int amplifier) {
         Level level = livingEntity.level();

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "brewmaster:item/nether_upgrade_book"
+  }
+}

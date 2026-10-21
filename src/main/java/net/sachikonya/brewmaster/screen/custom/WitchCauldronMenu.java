@@ -1,7 +1,6 @@
 package net.sachikonya.brewmaster.screen.custom;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -20,11 +19,14 @@ public class WitchCauldronMenu extends AbstractContainerMenu {
     public final WitchCauldronBlockEntity blockEntity;
     private final Level level;
     private final ContainerData data;
+    private final DataSlot currentPage = DataSlot.standalone();
 
     //ugly hack lmao, original is {29, 24, 20, 16, 11, 6, 0}; but I reversed it to fix a rendering issue
     private static final int[] BUBBLELENGTHS = new int[] {0, 6, 11, 16, 20, 24, 29};
 
     public static final int MENU_HEIGHT = 188;
+    public static final int BREWING_PAGE = 0;
+    public static final int UPGRADE_PAGE = 1;
 
     public WitchCauldronMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
         this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(WitchCauldronBlockEntity.CONTAINER_DATA_SIZE)); // <--- MUST BE THE SAME AS getCount() OR IT'LL CRASH
@@ -40,25 +42,32 @@ public class WitchCauldronMenu extends AbstractContainerMenu {
         addPlayerHotbar(inv);
 
         this.addSlot(new SlotItemHandler(blockEntity.itemHandler, WitchCauldronBlockEntity.INGREDIENT_SLOT, 81, 19){
-            @Override
-            public boolean mayPlace(ItemStack stack) {
-                return !stack.is(Items.GLASS_BOTTLE) && !stack.is(ModItems.WONDROUS_FLASK);
-            }
+            @Override public boolean mayPlace(ItemStack stack) { return !stack.is(Items.GLASS_BOTTLE) && !stack.is(ModItems.WONDROUS_FLASK); }
         });
         this.addSlot(new SlotItemHandler(blockEntity.itemHandler, WitchCauldronBlockEntity.BOTTLE_SLOT, 126, 54){
-            @Override
-            public boolean mayPlace(ItemStack stack) {
-                return stack.is(Items.GLASS_BOTTLE) || stack.is(ModItems.WONDROUS_FLASK);
-            }
+            @Override public boolean mayPlace(ItemStack stack) { return stack.is(Items.GLASS_BOTTLE) || stack.is(ModItems.WONDROUS_FLASK); }
         });
         this.addSlot(new SlotItemHandler(blockEntity.itemHandler, WitchCauldronBlockEntity.FUEL_SLOT,31,34){
-            @Override
-            public boolean mayPlace(ItemStack stack) {
+            @Override public boolean mayPlace(ItemStack stack) {
                 return stack.is(Items.BLAZE_POWDER);
             }
         });
 
+        this.addSlot(new SlotItemHandler(blockEntity.upgradeHandler, WitchCauldronBlockEntity.UPGRADE_SLOT_1, 178, 20){
+            @Override public boolean mayPlace(ItemStack stack) { return stack.is(ModItems.OVERWORLD_UPGRADE_BOOK); }
+            @Override public boolean isActive() { return currentPage.get() == UPGRADE_PAGE; }
+        });
+        this.addSlot(new SlotItemHandler(blockEntity.upgradeHandler, WitchCauldronBlockEntity.UPGRADE_SLOT_2, 178, 38) {
+            @Override public boolean mayPlace(ItemStack stack) { return stack.is(ModItems.NETHER_UPGRADE_BOOK); }
+            @Override public boolean isActive() { return currentPage.get() == UPGRADE_PAGE; }
+        });
+        this.addSlot(new SlotItemHandler(blockEntity.upgradeHandler, WitchCauldronBlockEntity.UPGRADE_SLOT_3, 178, 56) {
+            @Override public boolean mayPlace(ItemStack stack) { return stack.is(ModItems.END_UPGRADE_BOOK); }
+            @Override public boolean isActive() { return currentPage.get() == UPGRADE_PAGE; }
+        });
+
         addDataSlots(data);
+        addDataSlot(currentPage);
     }
 
     public int getBrewAmount() { return data.get(2); }
@@ -66,6 +75,7 @@ public class WitchCauldronMenu extends AbstractContainerMenu {
     public int getMaxIngredients() { return data.get(4); }
     public int getFluidType() { return data.get(5); }
     public int getRemainingFuel() { return data.get(8); }
+    public int getCurrentPage() { return currentPage.get(); }
 
     public PotionMixture getPotionMixture() { return blockEntity.getPotionMixture(); }
 
@@ -105,6 +115,15 @@ public class WitchCauldronMenu extends AbstractContainerMenu {
     public boolean stillValid(Player pPlayer) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
                 pPlayer, ModBlocks.WITCH_CAULDRON.get());
+    }
+
+    @Override
+    public boolean clickMenuButton(Player player, int id) {
+        if(id == 0) {
+            currentPage.set(currentPage.get() == 0 ? 1 : 0);
+            return true;
+        }
+        return false;
     }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons

@@ -55,7 +55,7 @@ public class PotionFlaskFluidHandler extends FluidHandlerItemStack {
         return !isFlaskLocked() && super.canDrainFluidType(fluid);
     }
 
-    private static int capacityOf(ItemStack itemStack) {
+    public static int capacityOf(ItemStack itemStack) {
         return itemStack.getItem() instanceof FluidCapacityProvider provider ? provider.getFluidCapacity(itemStack) : 0;
     }
 

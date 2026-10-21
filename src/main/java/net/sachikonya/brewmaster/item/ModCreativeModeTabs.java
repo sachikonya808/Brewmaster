@@ -40,6 +40,10 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.MAGIC_RUNE_B);
                         output.accept(ModItems.MAGIC_RUNE_C);
                         output.accept(ModItems.GOLDEN_SEED);
+
+                        output.accept(ModItems.OVERWORLD_UPGRADE_BOOK);
+                        output.accept(ModItems.NETHER_UPGRADE_BOOK);
+                        output.accept(ModItems.END_UPGRADE_BOOK);
                     })
                     .build());
 

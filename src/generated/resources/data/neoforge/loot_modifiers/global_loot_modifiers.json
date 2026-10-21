@@ -1,0 +1,16 @@
+{
+  "entries": [
+    "brewmaster:golden_seed_from_witch",
+    "brewmaster:golden_seed_from_grass",
+    "brewmaster:overworld_book_from_library",
+    "brewmaster:nether_book_from_bridge",
+    "brewmaster:nether_book_from_hoglin_stable",
+    "brewmaster:nether_book_from_other",
+    "brewmaster:nether_book_from_treasure",
+    "brewmaster:end_book_from_end_city_treasure",
+    "brewmaster:magic_rune_a_from_structures",
+    "brewmaster:magic_rune_b_from_structures",
+    "brewmaster:magic_rune_c_from_structures"
+  ],
+  "replace": false
+}

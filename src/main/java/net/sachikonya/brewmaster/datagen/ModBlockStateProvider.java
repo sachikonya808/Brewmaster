@@ -24,22 +24,4 @@ public class ModBlockStateProvider extends BlockStateProvider {
     private void blockWithItem(DeferredBlock<?> deferredBlock) {
         simpleBlockWithItem(deferredBlock.get(), cubeAll(deferredBlock.get()));
     }
-
-
-    /* Simple Block Item WITH Custom Block States Example
-    private void witchCauldron() {
-        getVariantBuilder(ModBlocks.WITCH_CAULDRON.get()).forAllStates(state -> {
-            if(state.getValue(WitchCauldronBlock.HAS_OR_IS_BREWING)) {
-                return new ConfiguredModel[]{new ConfiguredModel(models().cubeAll("witch_cauldron",                 //Must be
-                        ResourceLocation.fromNamespaceAndPath(Brewmaster.MODID, "block/" + "witch_cauldron")))};    //the same
-            } else {
-                return new ConfiguredModel[]{new ConfiguredModel(models().cubeAll("witch_cauldron",
-                        ResourceLocation.fromNamespaceAndPath(Brewmaster.MODID, "block/" + "witch_cauldron")))};
-            }
-        });
-
-        simpleBlockItem(ModBlocks.WITCH_CAULDRON.get(), models().cubeAll("witch_cauldron",
-                ResourceLocation.fromNamespaceAndPath(Brewmaster.MODID, "block/" + "witch_cauldron")));
-    }
-     */
 }

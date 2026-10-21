@@ -1,6 +1,34 @@
 {
   "variants": {
-    "has_or_is_brewing=true": {"model": "brewmaster:block/witch_cauldron"},
-    "has_or_is_brewing=false": {"model": "brewmaster:block/witch_cauldron"}
+    "facing=north,has_or_is_brewing=true": {
+      "model": "brewmaster:block/witch_cauldron"
+    },
+    "facing=south,has_or_is_brewing=true": {
+      "model": "brewmaster:block/witch_cauldron",
+      "y": 180
+    },
+    "facing=east,has_or_is_brewing=true": {
+      "model": "brewmaster:block/witch_cauldron",
+      "y": 90
+    },
+    "facing=west,has_or_is_brewing=true": {
+      "model": "brewmaster:block/witch_cauldron",
+      "y": 270
+    },
+    "facing=north,has_or_is_brewing=false": {
+      "model": "brewmaster:block/witch_cauldron"
+    },
+    "facing=south,has_or_is_brewing=false": {
+      "model": "brewmaster:block/witch_cauldron",
+      "y": 180
+    },
+    "facing=east,has_or_is_brewing=false": {
+      "model": "brewmaster:block/witch_cauldron",
+      "y": 90
+    },
+    "facing=west,has_or_is_brewing=false": {
+      "model": "brewmaster:block/witch_cauldron",
+      "y": 270
+    }
   }
 }

@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.sachikonya.brewmaster.Brewmaster;
 import net.sachikonya.brewmaster.item.ModItems;
+import net.sachikonya.brewmaster.item.ModTags;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +20,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        //tag(ModTags.Items.TRANSFORMABLE_ITEMS)
-        //        .add(ModItems.EXAMPLE.get());
+        tag(ModTags.Items.CAULDRON_UPGRADES)
+                .add(ModItems.OVERWORLD_UPGRADE_BOOK.get())
+                .add(ModItems.NETHER_UPGRADE_BOOK.get())
+                .add(ModItems.END_UPGRADE_BOOK.get());
     }
 }

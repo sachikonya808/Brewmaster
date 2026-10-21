@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brewmaster:item/wondrous_flask"
+    "layer0": "brewmaster:item/wondrous_flask_empty"
   },
   "overrides": [
     {

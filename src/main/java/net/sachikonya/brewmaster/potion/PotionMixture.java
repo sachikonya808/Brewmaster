@@ -104,7 +104,7 @@ public record PotionMixture(List<PotionEffectData> effectDataList, double durati
 
             int level = data.amplifier() + 1;
             if(level > 1) {
-                Component roman = level <= 10 ? Component.translatable("enchantment.level." + level) : Component.literal(String.valueOf(level));
+                Component roman = level <= 40 ? Component.translatable("enchantment.level." + level) : Component.literal(String.valueOf(level));
                 line.append(" ").append(roman);
             }
 

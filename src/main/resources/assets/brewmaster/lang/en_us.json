@@ -23,6 +23,9 @@
   "item.brewmaster.diamond_amethyst": "Diamond Infused Amethyst Shard",
   "item.brewmaster.netherite_amethyst": "Netherite Infused Amethyst Shard",
   "item.brewmaster.golden_seed": "Golden Seed",
+  "item.brewmaster.overworld_upgrade_book": "Knowledge of the Overworld",
+  "item.brewmaster.nether_upgrade_book": "Knowledge of the Nether",
+  "item.brewmaster.end_upgrade_book": "Knowledge of the End",
 
   "jei.brewmaster.brewing_recipe_type": "Witch Cauldron Brewing",
   "jei.brewmaster.flask_upgrade_type": "Wondrous Flask Upgrade",
@@ -30,7 +33,7 @@
   "jei.brewmaster.awkward_potion_required": "Requires %s!",
   "jei.brewmaster.info.nether_wart": "Test!",
 
-  "config.jade.plugin_brewmaster.witch_cauldron": "Witch's Cauldron",
+  "config.jade.plugin_brewmaster.witch_cauldron": "Witch Cauldron",
   "jade.brewmaster.ingredients": "Ingredients Used: %s / %s",
   "jade.brewmaster.fuel": "%s",
 

@@ -25,5 +25,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.MAGIC_RUNE_B.get());
         basicItem(ModItems.MAGIC_RUNE_C.get());
         basicItem(ModItems.GOLDEN_SEED.get());
+
+        basicItem(ModItems.OVERWORLD_UPGRADE_BOOK.get());
+        basicItem(ModItems.NETHER_UPGRADE_BOOK.get());
+        basicItem(ModItems.END_UPGRADE_BOOK.get());
     }
 }

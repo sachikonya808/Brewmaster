@@ -84,7 +84,6 @@ public class SeaBlessedGourdItem extends Item implements FluidCapacityProvider {
                 }
 
                 updateDistillTime(distillTime+1, stack);
-                System.out.println("DT: "+distillTime);
                 if(distillTime >= DISTILL_TIME) {
                     if(fluidHandler.getFluidInTank(0).isEmpty()) {
                         fluidHandler.fill(potion, IFluidHandler.FluidAction.EXECUTE);

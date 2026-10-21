@@ -18,17 +18,17 @@ public class ModEffects {
     public static final DeferredRegister<MobEffect> MOB_EFFECTS =
         DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, Brewmaster.MODID);
 
-    public static final Holder<MobEffect> FALLING_ANVIL_EFFECT =
+    public static final Holder<MobEffect> FALLING_ANVIL =
             MOB_EFFECTS.register("falling_anvil", () -> new FallingAnvilEffect(MobEffectCategory.HARMFUL, 0x515151)
                     .addAttributeModifier(Attributes.MOVEMENT_SPEED,
                             ResourceLocation.fromNamespaceAndPath(Brewmaster.MODID, "falling_anvil"),
                             -0.5f,
                             AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 
-    public static final Supplier<MobEffect> LIGHTNING_ROD_EFFECT =
+    public static final DeferredHolder<MobEffect, LightningRodEffect> LIGHTNING_ROD =
             MOB_EFFECTS.register("lightning_rod", LightningRodEffect::new);
 
-    public static final Supplier<MobEffect> POWDER_TRAIL_EFFECT =
+    public static final DeferredHolder<MobEffect, PowderTrailEffect> POWDER_TRAIL =
             MOB_EFFECTS.register("powder_trail", PowderTrailEffect::new);
 
     public static final Holder<MobEffect> WARDEN_CURSE =
@@ -52,6 +52,9 @@ public class ModEffects {
 
     public static final DeferredHolder<MobEffect, HighCholesterolEffect> HIGH_CHOLESTEROL =
             MOB_EFFECTS.register("high_cholesterol", () -> new HighCholesterolEffect(MobEffectCategory.HARMFUL, 0xDBA213));
+
+//    public static final DeferredHolder<MobEffect, BrittleEffect> BRITTLE =
+//            MOB_EFFECTS.register("brittle", BrittleEffect::new);
 
     public static void register(IEventBus eventBus) {
         MOB_EFFECTS.register(eventBus);
