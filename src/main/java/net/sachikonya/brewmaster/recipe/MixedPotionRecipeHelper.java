@@ -1,19 +1,18 @@
 package net.sachikonya.brewmaster.recipe;
 
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.neoforged.neoforge.common.brewing.IBrewingRecipe;
 
-public class MixedPotionContainerRecipe implements IBrewingRecipe {
+public class MixedPotionRecipeHelper implements IBrewingRecipe {
 
     private final ItemStack ingredient;
     private final ItemStack output;
 
-    public MixedPotionContainerRecipe(ItemStack ingredient, ItemStack output) {
+    public MixedPotionRecipeHelper(ItemStack ingredient, ItemStack output) {
         this.ingredient = ingredient;
         this.output = output;
     }

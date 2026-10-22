@@ -12,6 +12,8 @@
   "fluid_type.brewmaster.potion": "Mixed Potion",
   "block.brewmaster.witch_cauldron": "Witch Cauldron",
 
+  "entity.minecraft.villager.brewmaster.allied_witch": "Allied Witch",
+
   "item.brewmaster.mixed_potion": "Mixed Potion",
   "item.brewmaster.wondrous_flask": "Wondrous Flask",
   "item.brewmaster.sea_blessed_gourd": "Sea Blessed Gourd",
@@ -61,7 +63,6 @@
 
   "death.attack.brewmaster.heart_attack": "%1$s died from a heart attack",
   "death.attack.brewmaster.heart_attack.player": "%1$s died from a heart attack thanks to %1$s",
-
 
   "potion.potency.6": "VII",
   "potion.potency.7": "VIII",

@@ -1,11 +1,11 @@
-package net.sachikonya.brewmaster.block.entity;
+package net.sachikonya.brewmaster.block;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.sachikonya.brewmaster.Brewmaster;
-import net.sachikonya.brewmaster.block.ModBlocks;
+import net.sachikonya.brewmaster.block.entity.WitchCauldronBlockEntity;
 
 import java.util.function.Supplier;
 

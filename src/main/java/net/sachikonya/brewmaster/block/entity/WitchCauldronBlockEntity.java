@@ -30,6 +30,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import net.sachikonya.brewmaster.block.ModBlockEntities;
 import net.sachikonya.brewmaster.block.WitchCauldronState;
 import net.sachikonya.brewmaster.block.custom.WitchCauldronBlock;
 import net.sachikonya.brewmaster.fluid.ModFluids;

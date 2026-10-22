@@ -10,7 +10,7 @@ public class ExtraBrewingStandRecipes {
     public static void register(RegisterBrewingRecipesEvent event) {
         PotionBrewing.Builder builder = event.getBuilder();
 
-        builder.addRecipe(new MixedPotionContainerRecipe(new ItemStack(Items.GUNPOWDER), new ItemStack(Items.SPLASH_POTION)));
-        builder.addRecipe(new MixedPotionContainerRecipe(new ItemStack(Items.DRAGON_BREATH), new ItemStack(Items.LINGERING_POTION)));
+        builder.addRecipe(new MixedPotionRecipeHelper(new ItemStack(Items.GUNPOWDER), new ItemStack(Items.SPLASH_POTION)));
+        builder.addRecipe(new MixedPotionRecipeHelper(new ItemStack(Items.DRAGON_BREATH), new ItemStack(Items.LINGERING_POTION)));
     }
 }

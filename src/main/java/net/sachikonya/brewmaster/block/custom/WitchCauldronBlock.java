@@ -14,7 +14,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -36,13 +38,11 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.fluids.FluidUtil;
-import net.sachikonya.brewmaster.block.entity.ModBlockEntities;
+import net.sachikonya.brewmaster.block.ModBlockEntities;
 import net.sachikonya.brewmaster.block.entity.WitchCauldronBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
-
-public class WitchCauldronBlock extends BaseEntityBlock{
+public class WitchCauldronBlock extends BaseEntityBlock implements Equipable {
     public static final MapCodec<WitchCauldronBlock> CODEC = simpleCodec(WitchCauldronBlock::new);
 
     public WitchCauldronBlock(Properties properties) {
@@ -63,20 +63,12 @@ public class WitchCauldronBlock extends BaseEntityBlock{
     private static final VoxelShape INSIDE = Block.box(2, 2, 2, 14, 16, 14);
     private static final VoxelShape SHAPE = Shapes.join(Shapes.block(), INSIDE, BooleanOp.ONLY_FIRST);
 
-    @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return SHAPE;
-    }
-
-    @Override
-    protected VoxelShape getInteractionShape(BlockState state, BlockGetter level, BlockPos pos) {
-        return INSIDE;
-    }
-
-    @Override
-    protected RenderShape getRenderShape(BlockState state) {
+    @Override protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) { return SHAPE; }
+    @Override protected VoxelShape getInteractionShape(BlockState state, BlockGetter level, BlockPos pos) { return INSIDE; }
+    @Override protected RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
+    @Override public EquipmentSlot getEquipmentSlot() { return EquipmentSlot.HEAD; }
 
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
