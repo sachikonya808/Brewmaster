@@ -8,7 +8,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.sachikonya.brewmaster.Brewmaster;
-import net.sachikonya.brewmaster.item.custom.SeaBlessedGourdItem;
 import net.sachikonya.brewmaster.screen.client.CauldronFluidRender;
 import net.sachikonya.brewmaster.screen.client.CauldronTooltipRender;
 
@@ -18,6 +17,9 @@ public class SeaBlessedGourdScreen extends AbstractContainerScreen<SeaBlessedGou
             ResourceLocation.fromNamespaceAndPath(Brewmaster.MODID, "textures/gui/gourd_gui.png");
     private static final ResourceLocation DISTILL_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(Brewmaster.MODID, "textures/gui/bottling_progress.png");
+
+    private static final ResourceLocation CONDUIT_EYE =
+            ResourceLocation.withDefaultNamespace("textures/mob_effect/conduit_power.png");
 
     public SeaBlessedGourdScreen(SeaBlessedGourdMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -49,6 +51,7 @@ public class SeaBlessedGourdScreen extends AbstractContainerScreen<SeaBlessedGou
     private void renderProgressArrow(GuiGraphics guiGraphics, int x, int y) {
         if(menu.isDistilling()) {
             guiGraphics.blit(DISTILL_TEXTURE, x + 74, y + 52, 0, 0, menu.getScaledDistillProgress(), 9, 28, 9);
+            guiGraphics.blit(CONDUIT_EYE, x + 79, y + 29, 0, 0, 18, 18, 18, 18);
         }
     }
 

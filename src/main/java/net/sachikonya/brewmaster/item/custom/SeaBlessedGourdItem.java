@@ -1,6 +1,5 @@
 package net.sachikonya.brewmaster.item.custom;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -14,7 +13,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.Level;
@@ -40,7 +38,7 @@ import java.util.Objects;
 public class SeaBlessedGourdItem extends Item implements FluidCapacityProvider {
     public static final int CAPACITY = 2500;
     public static final int DISTILL_COST = 1;
-    public static final int DISTILL_TIME = 12000;
+    public static final int DISTILL_TIME = 8400;
 
     public SeaBlessedGourdItem(Properties properties) {
         super(properties);
@@ -49,7 +47,7 @@ public class SeaBlessedGourdItem extends Item implements FluidCapacityProvider {
 
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        if(level instanceof ServerLevel serverLevel && entity instanceof Player) {
+        if(level instanceof ServerLevel && entity instanceof Player) {
             SeaBlessedGourdHandler inventory = new SeaBlessedGourdHandler(stack);
             ItemStack potionInput = inventory.getStackInSlot(SeaBlessedGourdHandler.POTION_SLOT);
             ItemStack tears = inventory.getStackInSlot(SeaBlessedGourdHandler.TEARS_SLOT);
@@ -215,23 +213,8 @@ public class SeaBlessedGourdItem extends Item implements FluidCapacityProvider {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        List<Component> lines = new ArrayList<>();
         IFluidHandler fluidHandler = stack.getCapability(Capabilities.FluidHandler.ITEM, null);
-
-        int i = PotionFlaskFluidHandler.getFluidTypeID(fluidHandler);
-        switch (i) {
-            case 0 -> lines.add(Component.translatable("tooltip.brewmaster.empty_fluid"));
-            case 1 -> lines.add(Component.translatable("block.minecraft.water"));
-            case 2 -> {
-                if(PotionFlaskFluidHandler.getPotionMixture(fluidHandler).isPotionEmpty()) {
-                    lines.add(Component.translatable("effect.none").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
-                } else {
-                    lines.add(Component.translatable("item.brewmaster.mixed_potion").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
-                    lines.addAll(PotionFlaskFluidHandler.getPotionMixture(fluidHandler).getTooltipLines());
-                }
-            }
-            default -> lines.add(Component.literal("!!! UNKNOWN FLUID !!!").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.DARK_RED));
-        }
+        List<Component> lines = PotionFlaskFluidHandler.getFluidLines(fluidHandler);
 
         tooltipComponents.addAll(lines);
         tooltipComponents.add(Component.translatable("tooltip.brewmaster.charges", PotionFlaskFluidHandler.getRemainingCharges(stack), PotionFlaskFluidHandler.getMaxCharges(CAPACITY)));

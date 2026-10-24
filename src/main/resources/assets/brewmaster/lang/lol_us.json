@@ -1,0 +1,62 @@
+{
+  "creativetab.brewmaster.brewmaster_items": "Brewmaster",
+
+  "brewmaster.configuration.title": "Brewmaster Configs",
+  "brewmaster.configuration.section.brewmaster.common.toml": "Brewmaster Configs",
+  "brewmaster.configuration.section.brewmaster.common.toml.title": "Brewmaster Configs",
+
+  "fluid_type.brewmaster.potion": "Mixed Potion",
+  "block.brewmaster.witch_cauldron": "Witch Cauldron",
+
+  "entity.minecraft.villager.brewmaster.allied_witch": "Allied Witch",
+
+  "item.brewmaster.mixed_potion": "Mixed Potion",
+  "item.brewmaster.wondrous_flask": "Wondrous Flask",
+  "item.brewmaster.sea_blessed_gourd": "Sea Blessed Gourd",
+  "item.brewmaster.magic_rune_a": "Astral Rune",
+  "item.brewmaster.magic_rune_b": "Bewitching Rune",
+  "item.brewmaster.magic_rune_c": "Chaos Rune",
+  "item.brewmaster.iron_amethyst": "Iron Plated Amethyst Shard",
+  "item.brewmaster.gold_amethyst": "Gold Plated Amethyst Shard",
+  "item.brewmaster.diamond_amethyst": "Diamond Plated Amethyst Shard",
+  "item.brewmaster.netherite_amethyst": "Netherite Plated Amethyst Shard",
+  "item.brewmaster.golden_seed": "Golden Seed",
+  "item.brewmaster.overworld_upgrade_book": "Knowledge of the Overworld",
+  "item.brewmaster.nether_upgrade_book": "Knowledge of the Nether",
+  "item.brewmaster.end_upgrade_book": "Knowledge of the End",
+
+  "jei.brewmaster.brewing_recipe_type": "Witch Cauldron Brewing",
+  "jei.brewmaster.flask_upgrade_type": "Wondrous Flask Upgrade",
+  "jei.brewmaster.duration_bonus": "Duration Multiplier: %s",
+  "jei.brewmaster.weight": "Ingredient Weight: %s",
+  "jei.brewmaster.awkward_potion_required": "Requires %s!",
+  "jei.brewmaster.info.nether_wart": "Test!",
+
+  "config.jade.plugin_brewmaster.witch_cauldron": "Witch Cauldron",
+  "jade.brewmaster.ingredients": "Ingredients Used: %s / %s",
+  "jade.brewmaster.fuel": "%s",
+
+  "effect.brewmaster.falling_anvil": "Falling Anvil",
+  "effect.brewmaster.lightning_rod": "Lightning Rod",
+  "effect.brewmaster.powder_trail": "Powder Trail",
+  "effect.brewmaster.warden_curse": "Warden's Curse",
+  "effect.brewmaster.small": "Small",
+  "effect.brewmaster.big": "Big",
+  "effect.brewmaster.memory_loss": "Memory Loss",
+  "effect.brewmaster.lucky_potion": "Lucky Potion",
+  "effect.brewmaster.high_cholesterol": "High Cholesterol",
+  "effect.brewmaster.cacti_dream": "Cacti Dream",
+
+  "tooltip.brewmaster.empty_fluid": "Empty",
+  "tooltip.brewmaster.amount": "Amount: %s / %s mB",
+  "tooltip.brewmaster.charges": "Charges: %s / %s",
+  "tooltip.brewmaster.flask_base": "Base Flask",
+  "tooltip.brewmaster.flask_iron": "Tier: Iron",
+  "tooltip.brewmaster.flask_gold": "Tier: Gold",
+  "tooltip.brewmaster.flask_diamond": "Tier: Diamond",
+  "tooltip.brewmaster.flask_netherite": "Tier: Netherite",
+  "tooltip.brewmaster.lucky_potion_hint": "Anything could happen!",
+
+  "death.attack.brewmaster.heart_attack": "%1$s died from a heart attack",
+  "death.attack.brewmaster.heart_attack.player": "%1$s died from a heart attack thanks to %1$s"
+}

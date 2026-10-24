@@ -1,6 +1,5 @@
 package net.sachikonya.brewmaster;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -31,8 +30,6 @@ public class BrewmasterClient {
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
         // Some client setup code
-        Brewmaster.LOGGER.info("HELLO FROM CLIENT SETUP");
-        Brewmaster.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
 
         event.enqueueWork(() -> ItemProperties.register(
                 ModItems.WONDROUS_FLASK.get(),

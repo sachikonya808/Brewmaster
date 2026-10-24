@@ -1,6 +1,8 @@
 package net.sachikonya.brewmaster.fluid;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -8,7 +10,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.alchemy.PotionContents;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -19,6 +20,9 @@ import net.sachikonya.brewmaster.potion.PotionItemFactory;
 import net.sachikonya.brewmaster.potion.PotionMixture;
 import net.sachikonya.brewmaster.registry.ModDataComponents;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class PotionFlaskFluidHandler extends FluidHandlerItemStack {
@@ -125,5 +129,26 @@ public class PotionFlaskFluidHandler extends FluidHandlerItemStack {
         if(fluidHandler.getFluidInTank(0).is(ModFluids.POTION.get())) { return 2; }
 
         return 0;
+    }
+
+    public static List<Component> getFluidLines(IFluidHandler fluidHandler) {
+        List<Component> lines = new ArrayList<>();
+        int i = getFluidTypeID(fluidHandler);
+
+        switch (i) {
+            case 0 -> lines.add(Component.translatable("tooltip.brewmaster.empty_fluid"));
+            case 1 -> lines.add(Component.translatable("block.minecraft.water"));
+            case 2 -> {
+                if(getPotionMixture(fluidHandler).isPotionEmpty()) {
+                    lines.add(Component.translatable("effect.none").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+                } else {
+                    lines.add(Component.translatable("item.brewmaster.mixed_potion").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+                    lines.addAll(getPotionMixture(fluidHandler).getTooltipLines());
+                }
+            }
+            default -> lines.add(Component.literal("!!! UNKNOWN FLUID !!!").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.DARK_RED));
+        }
+
+        return lines;
     }
 }
