@@ -23,6 +23,6 @@ run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean`
 
 Additional Resources: 
 ==========
-Wiki: https://sachikonya808.neocities.org/pages/mods/brewmaster/brewmaster/
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+- Wiki: https://sachikonya808.neocities.org/pages/mods/brewmaster/brewmaster/
+- Community Documentation: https://docs.neoforged.net/  
+- NeoForged Discord: https://discord.neoforged.net/
