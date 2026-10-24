@@ -14,7 +14,7 @@ Use `gradlew build` to output the artifacts to `build/libs`.
 
 If at any point you are missing libraries in your IDE, or you've run into problems you can
 run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+(this does not affect your code) and then start the process again.
 
 ### Build Requirements
 
